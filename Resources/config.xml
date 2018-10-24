@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../../engine/Shopware/Components/Plugin/schema/config.xsd">
+
+    <elements>
+        <element type="boolean" required="true">
+            <name>liveHook</name>
+            <label>Replace the Images live</label>
+            <description>Otherwise you need to write the Images via the Command</description>
+        </element>
+
+        <element type="interval" required="true">
+            <name>mediaCacheTTL</name>
+            <label>Time to Live for Thumbnail Sizes</label>
+        </element>
+        <element type="interval" required="true">
+            <name>resourceCacheTTL</name>
+            <label>Time to Live for Thumbnails</label>
+        </element>
+        <element type="interval" required="true">
+            <name>mediaProviderListCacheTTL</name>
+            <label>Time to Live for Media Provider Order</label>
+        </element>
+        <element type="interval" required="true">
+            <name>mediaAssociationTTL</name>
+            <label>Time to Live for Ordernumber Image Associations</label>
+        </element>
+        <element type="datetime" required="false" scope="shop">
+            <name>lastRun</name>
+            <label>Last run of the Writer</label>
+        </element>
+    </elements>
+
+</config>
