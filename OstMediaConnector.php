@@ -17,6 +17,7 @@
 
 namespace OstMediaConnector;
 
+use OstMediaConnector\Bundles\OstMediaConnectorBundle\Components\CompilerPass\MediaProviderCollectorCompilerPass;
 use Shopware\Components\Plugin;
 use Shopware\Components\Plugin\Context;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
