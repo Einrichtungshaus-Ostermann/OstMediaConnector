@@ -33,16 +33,16 @@
         </service>
         <!-- Decorations -->
 
-        <service class="OstMediaConnector\Commands\OstMediaConnectorAssignAllCommand">
+        <service class="OstMediaConnector\Commands\AssignAllCommand">
             <tag name="console.command"/>
         </service>
-        <service class="OstMediaConnector\Commands\OstMediaConnectorAssignChangedCommand">
+        <service class="OstMediaConnector\Commands\AssignChangedCommand">
             <tag name="console.command"/>
             <argument type="service" id="models"/>
             <argument type="service" id="shopware.plugin.config_reader"/>
             <argument type="service" id="shopware.plugin.config_writer"/>
         </service>
-        <service class="OstMediaConnector\Commands\OstMediaConnectorAssignNoImageCommand">
+        <service class="OstMediaConnector\Commands\AssignNoImageCommand">
             <tag name="console.command"/>
         </service>
 
