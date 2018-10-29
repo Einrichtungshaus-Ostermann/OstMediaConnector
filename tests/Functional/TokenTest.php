@@ -19,7 +19,7 @@ class TokenTest extends TestCase
         /** @noinspection PhpUnhandledExceptionInspection */
         $extracted = TestToken::extractToken($token, count(self::PARAMS));
 
-        $this->assertEquals($token, $extracted);
+        $this->assertEquals(self::PARAMS, $extracted);
     }
 }
 
