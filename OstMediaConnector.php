@@ -17,6 +17,7 @@
 
 namespace OstMediaConnector;
 
+use OstMediaConnector\Bundles\OstMediaConnectorBundle\Components\CompilerPass\CacheProviderCollectorCompilerPass;
 use OstMediaConnector\Bundles\OstMediaConnectorBundle\Components\CompilerPass\MediaProviderCollectorCompilerPass;
 use Shopware\Components\Plugin;
 use Shopware\Components\Plugin\Context;
@@ -39,6 +40,7 @@ class OstMediaConnector extends Plugin
         parent::build($container);
 
         $container->addCompilerPass(new MediaProviderCollectorCompilerPass());
+        $container->addCompilerPass(new CacheProviderCollectorCompilerPass());
     }
 
 
