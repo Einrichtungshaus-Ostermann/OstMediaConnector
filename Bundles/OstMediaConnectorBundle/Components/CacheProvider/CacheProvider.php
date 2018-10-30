@@ -23,4 +23,5 @@ use OstMediaConnector\Bundles\OstMediaConnectorBundle\Components\CacheProvider\R
 
 interface CacheProvider extends MediaCache, ResourceCache, MediaProviderListCache, MediaAssociationCache
 {
+    public function getName(): string;
 }

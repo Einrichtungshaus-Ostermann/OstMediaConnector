@@ -11,11 +11,12 @@
             <argument type="service" id="ost_media_connector.config"/>
         </service>
 
-        <service id="ost_media_connector.components_worker.image_worker" class="OstMediaConnector\Bundles\OstMediaConnectorBundle\Components\Worker\ImageWorker">
-            <tag name="ost_media_connector.components.media_worker"/>
+        <service id="ost_media_connector.components_cache.noop_cache" class="OstMediaConnector\Bundles\OstMediaConnectorBundle\Components\CacheProvider\NoopCacheProvider">
+            <tag name="ost_media_connector.components.media_cache"/>
+            <argument type="service" id="ost_media_connector.config"/>
         </service>
 
-        <service id="ost_media_connector.components_worker.video_worker" class="OstMediaConnector\Bundles\OstMediaConnectorBundle\Components\Worker\VideoWorker">
+        <service id="ost_media_connector.components_worker.image_worker" class="OstMediaConnector\Bundles\OstMediaConnectorBundle\Components\Worker\ImageWorker">
             <tag name="ost_media_connector.components.media_worker"/>
         </service>
 
@@ -34,6 +35,15 @@
             <argument type="collection" id="ost_media_connector.components.media_provider"/>
         </service>
 
+        <service id="ost_media_connector.services.cache_provider_selector" class="OstMediaConnector\Bundles\OstMediaConnectorBundle\Services\CacheProviderSelector">
+            <argument type="collection" id="ost_media_connector.components.media_cache"/>
+            <argument type="service" id="ost_media_connector.config"/>
+        </service>
+
+        <service id="ost_media_connector.cache_provider" class="OstMediaConnector\Bundles\OstMediaConnectorBundle\Components\CacheProvider\CacheProvider">
+            <factory service="ost_media_connector.services.cache_provider_selector" method="getCacheProvider"/>
+        </service>
+
         <service id="ost_media_connector.services.live_image_service" class="OstMediaConnector\Bundles\OstMediaConnectorBundle\Services\LiveImageService">
             <tag name="ost_media_connector.media_service"/>
             <argument type="service" id="ost_media_connector.components_worker.image_worker"/>
@@ -46,7 +56,7 @@
             <argument type="service" id="ost_media_connector.components_worker.image_worker"/>
             <argument type="service" id="ost_media_connector.components_media_provider.list"/>
             <argument type="service" id="router"/>
-            <argument type="service" id="ost_media_connector.components_cache.redis_cache"/>
+            <argument type="service" id="ost_media_connector.cache_provider"/>
         </service>
     </services>
 </container>

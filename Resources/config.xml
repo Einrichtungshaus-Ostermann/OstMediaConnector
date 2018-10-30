@@ -9,6 +9,22 @@
             <description>Otherwise you need to write the Images via the Command</description>
         </element>
 
+        <element type="select">
+            <name>cacheProvider</name>
+            <label>Cache Provider</label>
+            <store>
+                <option>
+                    <value>RedisCacheProvider</value>
+                    <label>Redis</label>
+                </option>
+                <option>
+                    <value>NoopCacheProvider</value>
+                    <label>Nothing</label>
+                </option>
+            </store>
+            <value>NoopCacheProvider</value>
+        </element>
+
         <element type="interval" required="true">
             <name>mediaCacheTTL</name>
             <label>Time to Live for Thumbnail Sizes</label>

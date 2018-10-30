@@ -61,6 +61,11 @@ class RedisCacheProvider implements CacheProvider
         $this->mediaAssociationTTL = (int)$config['mediaAssociationTTL'];
     }
 
+    public function getName(): string
+    {
+        return 'RedisCacheProvider';
+    }
+
     /**
      * @param MediaToken $resourceToken
      *
