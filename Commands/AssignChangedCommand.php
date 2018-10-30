@@ -124,6 +124,10 @@ class AssignChangedCommand extends ShopwareCommand
                 continue;
             }
 
+            if (empty($detail->getArticle()->getName())) {
+                continue;
+            }
+
             /** @var OstMediaConnectorMedia[] $images */
             $images = $liveImageService->getAll($detail->getNumber());
 
@@ -151,10 +155,6 @@ class AssignChangedCommand extends ShopwareCommand
 
             foreach ($images as $number => $image) {
                 if ($image === null) {
-                    continue;
-                }
-
-                if (empty($detail->getArticle()->getName())) {
                     continue;
                 }
 

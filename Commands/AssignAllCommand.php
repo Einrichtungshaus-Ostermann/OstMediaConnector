@@ -26,7 +26,6 @@ class AssignAllCommand extends ShopwareCommand
     /**
      * {@inheritdoc}
      *
-     * @throws \ReflectionException
      * @throws \RuntimeException
      * @throws \Exception
      */
@@ -38,24 +37,41 @@ class AssignAllCommand extends ShopwareCommand
         $models = $this->container->get('models');
         $mediaApi->setManager($models);
 
-        /** @var Detail[] $details */
-        $details = $models->getRepository(Detail::class)->findAll();
 
-        $progressBar = new ProgressBar($output, \count($details));
+        $qb = $this->container->get('dbal_connection')->createQueryBuilder();
+        $qb->select('articleID', 'ordernumber')
+            ->from('s_articles_details');
+        $result = $qb->execute()->fetchAll(\PDO::FETCH_ASSOC);
+
+        $progressBar = new ProgressBar($output, \count($result));
         //$progressBar->setRedrawFrequency(20);
         $progressBar->start();
 
 
-        foreach ($details as $detail) {
+        foreach ($result as $row) {
+            $number = $row['ordernumber'];
+
+            try {
+                /** @var Detail|null $detail */
+                $detail = $models->getRepository(Detail::class)->findOneBy(['number' => $number]);
+            } catch (\Exception $exception) {
+                $output->writeln($exception->getMessage());
+                continue;
+            }
+
+            if ($detail === null) {
+                continue;
+            }
+
+            if (empty($detail->getArticle()->getName())) {
+                continue;
+            }
+
             /** @var OstMediaConnectorMedia[] $images */
             $images = $liveImageService->getAll($detail->getNumber());
 
             foreach ($images as $number => $image) {
                 if ($image === null) {
-                    continue;
-                }
-
-                if (empty($detail->getArticle()->getName())) {
                     continue;
                 }
 
