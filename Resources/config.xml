@@ -22,7 +22,6 @@
                     <label>Nothing</label>
                 </option>
             </store>
-            <value>NoopCacheProvider</value>
         </element>
 
         <element type="interval" required="true">
