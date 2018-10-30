@@ -189,7 +189,7 @@ class LiveImageService implements MediaService
         foreach ($thumbnailSizes as $thumbnailSize) {
             $size = explode('x', $thumbnailSize);
 
-            $thumbnails[] = new ResourceToken($imagePath, $size[0], $size[1]);
+            $thumbnails[] = new ResourceToken($imagePath, (int)$size[0], (int)$size[1]);
         }
 
         $seoName = null;
