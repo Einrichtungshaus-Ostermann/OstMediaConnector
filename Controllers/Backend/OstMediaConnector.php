@@ -14,6 +14,7 @@
  * @copyright 2018 Einrichtungshaus Ostermann GmbH & Co. KG
  * @license   proprietary
  */
+
 namespace OstMediaConnector\Controllers\Backend;
 
 use OstMediaConnector\Bundles\OstMediaConnectorBundle\Components\MediaProvider\MediaProvider;

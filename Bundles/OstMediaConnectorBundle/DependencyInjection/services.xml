@@ -1,57 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<container xmlns="http://symfony.com/schema/dic/services"
-           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns="http://symfony.com/schema/dic/services"
            xsi:schemaLocation="http://symfony.com/schema/dic/services
         http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="ost_media_connector.components_cache.redis_cache" class="OstMediaConnector\Bundles\OstMediaConnectorBundle\Components\CacheProvider\RedisCacheProvider">
+        <service id="ost_media_connector.components_cache.redis_cache"
+                 class="OstMediaConnector\Bundles\OstMediaConnectorBundle\Components\CacheProvider\RedisCacheProvider">
             <tag name="ost_media_connector.components.media_cache"/>
             <argument type="service" id="ost_media_connector.config"/>
         </service>
 
-        <service id="ost_media_connector.components_cache.noop_cache" class="OstMediaConnector\Bundles\OstMediaConnectorBundle\Components\CacheProvider\NoopCacheProvider">
+        <service id="ost_media_connector.components_cache.noop_cache"
+                 class="OstMediaConnector\Bundles\OstMediaConnectorBundle\Components\CacheProvider\NoopCacheProvider">
             <tag name="ost_media_connector.components.media_cache"/>
             <argument type="service" id="ost_media_connector.config"/>
         </service>
 
-        <service id="ost_media_connector.components_worker.image_worker" class="OstMediaConnector\Bundles\OstMediaConnectorBundle\Components\Worker\ImageWorker">
+        <service id="ost_media_connector.components_worker.image_worker"
+                 class="OstMediaConnector\Bundles\OstMediaConnectorBundle\Components\Worker\ImageWorker">
             <tag name="ost_media_connector.components.media_worker"/>
         </service>
 
-        <service id="ost_media_connector.components_media_provider.pimprovider" class="OstMediaConnector\Bundles\OstMediaConnectorBundle\Components\MediaProvider\PIMProvider">
+        <service id="ost_media_connector.components_media_provider.pimprovider"
+                 class="OstMediaConnector\Bundles\OstMediaConnectorBundle\Components\MediaProvider\PIMProvider">
             <tag name="ost_media_connector.components.media_provider"/>
         </service>
 
-        <service id="ost_media_connector.components_media_provider.shopware_provider" class="OstMediaConnector\Bundles\OstMediaConnectorBundle\Components\MediaProvider\ShopwareProvider">
+        <service id="ost_media_connector.components_media_provider.shopware_provider"
+                 class="OstMediaConnector\Bundles\OstMediaConnectorBundle\Components\MediaProvider\ShopwareProvider">
             <tag name="ost_media_connector.components.media_provider"/>
             <argument type="service" id="shopware_media.media_service"/>
             <argument type="service" id="models"/>
             <argument type="service" id="ost_media_connector.config"/>
         </service>
 
-        <service id="ost_media_connector.components_media_provider.list" class="OstMediaConnector\Bundles\OstMediaConnectorBundle\Components\MediaProvider\MediaProviderListProvider">
+        <service id="ost_media_connector.components_media_provider.list"
+                 class="OstMediaConnector\Bundles\OstMediaConnectorBundle\Components\MediaProvider\MediaProviderListProvider">
             <argument type="collection" id="ost_media_connector.components.media_provider"/>
         </service>
 
-        <service id="ost_media_connector.services.cache_provider_selector" class="OstMediaConnector\Bundles\OstMediaConnectorBundle\Services\CacheProviderSelector">
+        <service id="ost_media_connector.services.cache_provider_selector"
+                 class="OstMediaConnector\Bundles\OstMediaConnectorBundle\Services\CacheProviderSelector">
             <argument type="collection" id="ost_media_connector.components.media_cache"/>
             <argument type="service" id="ost_media_connector.config"/>
         </service>
 
-        <service id="ost_media_connector.cache_provider" class="OstMediaConnector\Bundles\OstMediaConnectorBundle\Components\CacheProvider\CacheProvider">
+        <service id="ost_media_connector.cache_provider"
+                 class="OstMediaConnector\Bundles\OstMediaConnectorBundle\Components\CacheProvider\CacheProvider">
             <factory service="ost_media_connector.services.cache_provider_selector" method="getCacheProvider"/>
         </service>
 
-        <service id="ost_media_connector.services.live_image_service" class="OstMediaConnector\Bundles\OstMediaConnectorBundle\Services\LiveImageService">
+        <service id="ost_media_connector.services.live_image_service"
+                 class="OstMediaConnector\Bundles\OstMediaConnectorBundle\Services\LiveImageService">
             <tag name="ost_media_connector.media_service"/>
             <argument type="service" id="ost_media_connector.components_worker.image_worker"/>
             <argument type="service" id="ost_media_connector.components_media_provider.list"/>
             <argument type="service" id="router"/>
         </service>
 
-        <service id="ost_media_connector.services.image_service" class="OstMediaConnector\Bundles\OstMediaConnectorBundle\Services\CachedImageService">
+        <service id="ost_media_connector.services.image_service"
+                 class="OstMediaConnector\Bundles\OstMediaConnectorBundle\Services\CachedImageService">
             <tag name="ost_media_connector.media_service"/>
             <argument type="service" id="ost_media_connector.components_worker.image_worker"/>
             <argument type="service" id="ost_media_connector.components_media_provider.list"/>

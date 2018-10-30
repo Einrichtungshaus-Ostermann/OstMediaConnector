@@ -25,35 +25,50 @@ class CachedMedia
      */
     protected $orderNumber;
 
+
+
     /**
      * @var ResourceToken[]
      */
     protected $resourceTokens;
+
+
 
     /**
      * @var string
      */
     protected $file;
 
+
+
     /**
      * @var string
      */
     protected $extension;
+
+
 
     /**
      * @var bool
      */
     protected $preview;
 
+
+
     /**
      * @var int
      */
     protected $height;
 
+
+
     /**
      * @var int
      */
     protected $width;
+
+
+
     /**
      * @var string
      */
@@ -92,6 +107,8 @@ class CachedMedia
         $this->fileSize = $fileSize;
     }
 
+
+
     /**
      * @return string
      */
@@ -99,6 +116,8 @@ class CachedMedia
     {
         return $this->orderNumber;
     }
+
+
 
     /**
      * @return ResourceToken[]
@@ -108,6 +127,8 @@ class CachedMedia
         return $this->resourceTokens;
     }
 
+
+
     /**
      * @return string
      */
@@ -115,6 +136,8 @@ class CachedMedia
     {
         return $this->file;
     }
+
+
 
     /**
      * @return string
@@ -124,6 +147,8 @@ class CachedMedia
         return $this->extension;
     }
 
+
+
     /**
      * @return bool
      */
@@ -131,6 +156,8 @@ class CachedMedia
     {
         return $this->preview;
     }
+
+
 
     /**
      * @return int
@@ -140,6 +167,8 @@ class CachedMedia
         return $this->height;
     }
 
+
+
     /**
      * @return int
      */
@@ -148,6 +177,8 @@ class CachedMedia
         return $this->width;
     }
 
+
+
     /**
      * @return string
      */
@@ -155,6 +186,8 @@ class CachedMedia
     {
         return $this->seoName . '.' . $this->extension;
     }
+
+
 
     public function getMediaToken(): MediaToken
     {

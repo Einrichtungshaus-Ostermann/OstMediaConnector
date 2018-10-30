@@ -22,6 +22,8 @@ interface MediaService
      */
     public function getMedia(string $ordernumber, int $imageNumber = 0);
 
+
+
     /**
      * @param string $token
      *
@@ -31,6 +33,8 @@ interface MediaService
      */
     public function getResource(string $token);
 
+
+
     /**
      * @param string $ordernumber
      *
@@ -38,12 +42,16 @@ interface MediaService
      */
     public function getAll(string $ordernumber): array;
 
+
+
     /**
      * @param string $ordernumber
      *
      * @return int
      */
     public function count(string $ordernumber): int;
+
+
 
     /**
      * Returns you all MediaProvider Instances

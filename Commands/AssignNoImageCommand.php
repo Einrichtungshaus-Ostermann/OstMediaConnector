@@ -22,6 +22,8 @@ class AssignNoImageCommand extends ShopwareCommand
         $this->setName('mediaserver:assign:noimage');
     }
 
+
+
     /**
      * {@inheritdoc}
      *

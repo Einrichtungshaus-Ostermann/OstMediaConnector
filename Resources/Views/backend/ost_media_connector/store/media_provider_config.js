@@ -1,7 +1,7 @@
 Ext.define('Shopware.apps.OstMediaConnector.store.OstMediaConnectorConfig', {
-    extend:'Shopware.store.Listing',
+    extend: 'Shopware.store.Listing',
 
-    configure: function() {
+    configure: function () {
         return {
             controller: 'OstMediaConnectorConfig'
         };

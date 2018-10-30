@@ -21,25 +21,6 @@ use OstMediaConnector\Utils\Base64Url;
 abstract class AbstractToken
 {
     /**
-     * @param array $params
-     *
-     * @return string
-     */
-    protected function createToken(array $params): string
-    {
-        foreach ($params as &$param) {
-            $param = '\'' . $param . '\'';
-        }
-        unset($param);
-
-        $token = implode('.', $params);
-
-        $compressed = gzcompress($token);
-
-        return Base64Url::encode($compressed);
-    }
-
-    /**
      * @param string $token
      * @param int|null $expectedSize
      *
@@ -87,5 +68,26 @@ abstract class AbstractToken
         unset($param);
 
         return $params;
+    }
+
+
+
+    /**
+     * @param array $params
+     *
+     * @return string
+     */
+    protected function createToken(array $params): string
+    {
+        foreach ($params as &$param) {
+            $param = '\'' . $param . '\'';
+        }
+        unset($param);
+
+        $token = implode('.', $params);
+
+        $compressed = gzcompress($token);
+
+        return Base64Url::encode($compressed);
     }
 }

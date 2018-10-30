@@ -13,6 +13,8 @@ class MediaProviderCollectorCompilerPass implements CompilerPassInterface
 {
     use TagReplaceTrait;
 
+
+
     /**
      * @param ContainerBuilder $container
      */

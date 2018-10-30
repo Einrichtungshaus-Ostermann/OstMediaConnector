@@ -14,12 +14,16 @@ class MultiCurl
      */
     private $_curl_version;
 
+
+
     /**
      * max. number of simultaneous connections allowed
      *
      * @var int
      */
     private $_maxConcurrent = 0;
+
+
 
     /**
      * shared cURL options
@@ -28,12 +32,16 @@ class MultiCurl
      */
     private $_options = [];
 
+
+
     /**
      * shared cURL request headers
      *
      * @var array
      */
     private $_headers = [];
+
+
 
     /**
      * default callback
@@ -42,6 +50,8 @@ class MultiCurl
      */
     private $_callback = null;
 
+
+
     /**
      * all requests must be completed by this time
      *
@@ -49,12 +59,16 @@ class MultiCurl
      */
     private $_timeout = 20000;
 
+
+
     /**
      * request_queue
      *
      * @var array
      */
     private $requests = [];
+
+
 
     /**
      * MultiCurl constructor.
@@ -67,6 +81,8 @@ class MultiCurl
         $this->_curl_version = curl_version()['version'];
     }
 
+
+
     public function setMaxConcurrent($max_requests)
     {
         if ($max_requests > 0) {
@@ -74,10 +90,14 @@ class MultiCurl
         }
     }
 
+
+
     public function setOptions(array $options)
     {
         $this->_options = $options;
     }
+
+
 
     public function setHeaders(array $headers)
     {
@@ -86,10 +106,14 @@ class MultiCurl
         }
     }
 
+
+
     public function setCallback(callable $callback)
     {
         $this->_callback = $callback;
     }
+
+
 
     public function setTimeout($timeout)
     {
@@ -99,6 +123,8 @@ class MultiCurl
     }
 
     //Add a request to the request queue
+
+
 
     /**
      * Add a request to the request queue
@@ -133,13 +159,7 @@ class MultiCurl
         return count($this->requests) - 1;
     }
 
-    /**
-     * Reset request queue
-     */
-    public function reset()
-    {
-        $this->requests = [];
-    }
+
 
     /**
      * Process all requests in queue
@@ -183,6 +203,49 @@ class MultiCurl
         curl_multi_close($multi_handle);
     }
 
+
+
+    /**
+     * Reset request queue
+     */
+    public function reset()
+    {
+        $this->requests = [];
+    }
+
+
+
+    /**
+     * @param $request_num
+     * @param $multi_handle
+     * @param $requests_map
+     */
+    private function initRequest($request_num, $multi_handle, &$requests_map)
+    {
+        $request = &$this->requests[$request_num];
+        $this->addTimer($request);
+        $ch = curl_init();
+        $options = $this->buildOptions($request);
+        $request['options_set'] = $options;
+        curl_setopt_array($ch, $options);
+        curl_multi_add_handle($multi_handle, $ch);
+        $ch_hash = (string)$ch;
+        $requests_map[$ch_hash] = $request_num;
+    }
+
+
+
+    /**
+     * @param array $request
+     */
+    private function addTimer(array &$request)
+    {
+        $request['timer'] = microtime(true);
+        $request['time'] = false;
+    }
+
+
+
     /**
      * @param array $request
      *
@@ -225,23 +288,7 @@ class MultiCurl
         return $options;
     }
 
-    /**
-     * @param $request_num
-     * @param $multi_handle
-     * @param $requests_map
-     */
-    private function initRequest($request_num, $multi_handle, &$requests_map)
-    {
-        $request = &$this->requests[$request_num];
-        $this->addTimer($request);
-        $ch = curl_init();
-        $options = $this->buildOptions($request);
-        $request['options_set'] = $options;
-        curl_setopt_array($ch, $options);
-        curl_multi_add_handle($multi_handle, $ch);
-        $ch_hash = (string)$ch;
-        $requests_map[$ch_hash] = $request_num;
-    }
+
 
     /**
      * @param $completed
@@ -282,14 +329,7 @@ class MultiCurl
         $request = null;
     }
 
-    /**
-     * @param array $request
-     */
-    private function addTimer(array &$request)
-    {
-        $request['timer'] = microtime(true);
-        $request['time'] = false;
-    }
+
 
     /**
      * @param array $request

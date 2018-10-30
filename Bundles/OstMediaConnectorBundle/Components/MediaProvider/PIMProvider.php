@@ -8,18 +8,29 @@ class PIMProvider implements MediaProvider
      * @var string[]
      */
     private $imageFolders;
+
+
+
     /**
      * @var string
      */
     private $imageServerPath;
+
+
+
     /**
      * @var string
      */
     private $variantFolderName;
+
+
+
     /**
      * @var string[]
      */
     private $variantImageNames;
+
+
 
     /**
      * @param string $ordernumber
@@ -35,6 +46,8 @@ class PIMProvider implements MediaProvider
 
         return $images;
     }
+
+
 
     /**
      * @param string $ordernumber
@@ -62,6 +75,8 @@ class PIMProvider implements MediaProvider
         return $count;
     }
 
+
+
     /**
      * Returns a Media for an Ordernumber
      *
@@ -85,10 +100,14 @@ class PIMProvider implements MediaProvider
         return null;
     }
 
+
+
     public function getName(): string
     {
         return 'PIM Media Provider';
     }
+
+
 
     public function getConfigParameter(): array
     {
@@ -116,6 +135,8 @@ class PIMProvider implements MediaProvider
         ];
     }
 
+
+
     public function getConfig(): array
     {
         return [
@@ -125,6 +146,8 @@ class PIMProvider implements MediaProvider
             'variantFolderName' => $this->variantFolderName,
         ];
     }
+
+
 
     public function setConfig(array $config)
     {
@@ -155,12 +178,16 @@ class PIMProvider implements MediaProvider
 
 
 
-    private function getVariantFileName(string $ordernumber, string $imageName)
+    /**
+     * @param $path
+     *
+     * @return bool
+     */
+    private function fileExist($path): bool
     {
-        list($ordernumber, $variantNumber) = explode('-', $ordernumber);
+        $headers = @get_headers($path)[0];
 
-        return $this->imageServerPath . '/' . $this->variantFolderName .
-            '/' . $this->padOrdernumber($ordernumber) . '-' . $this->padVariantNumber($variantNumber) . '_' . $imageName . '.' . 'jpg';
+        return strpos($headers, '404') === false;
     }
 
 
@@ -172,6 +199,16 @@ class PIMProvider implements MediaProvider
         }
 
         return $this->imageServerPath . '/' . $this->imageFolders[$imageNumber] . '/' . $this->padOrdernumber($ordernumber) . '.' . 'jpg';
+    }
+
+
+
+    private function getVariantFileName(string $ordernumber, string $imageName)
+    {
+        list($ordernumber, $variantNumber) = explode('-', $ordernumber);
+
+        return $this->imageServerPath . '/' . $this->variantFolderName .
+            '/' . $this->padOrdernumber($ordernumber) . '-' . $this->padVariantNumber($variantNumber) . '_' . $imageName . '.' . 'jpg';
     }
 
 
@@ -196,19 +233,5 @@ class PIMProvider implements MediaProvider
     private function padVariantNumber(string $variantNumber): string
     {
         return str_pad($variantNumber, 5, '0', STR_PAD_LEFT);
-    }
-
-
-
-    /**
-     * @param $path
-     *
-     * @return bool
-     */
-    private function fileExist($path): bool
-    {
-        $headers = @get_headers($path)[0];
-
-        return strpos($headers, '404') === false;
     }
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use OstMediaConnector\Bundles\OstMediaConnectorBundle\Components\CacheProvider\Token\AbstractToken;
 use PHPUnit\Framework\TestCase;
@@ -9,6 +9,8 @@ class TokenTest extends TestCase
         'param1',
         'param2',
     ];
+
+
 
     public function testTokenCreationAndExtraction()
     {

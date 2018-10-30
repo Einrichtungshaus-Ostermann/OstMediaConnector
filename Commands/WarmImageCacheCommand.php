@@ -23,6 +23,8 @@ class WarmImageCacheCommand extends ShopwareCommand
         $this->setName('mediaserver:cache:warm')->setDescription('Warm ImageCache');
     }
 
+
+
     /**
      * {@inheritdoc}
      *

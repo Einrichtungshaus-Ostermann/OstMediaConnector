@@ -21,6 +21,8 @@ class AssignAllCommand extends ShopwareCommand
         $this->setName('mediaserver:assign:all');
     }
 
+
+
     /**
      * {@inheritdoc}
      *

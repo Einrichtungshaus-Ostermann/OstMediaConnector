@@ -1,12 +1,12 @@
 Ext.define('Shopware.apps.OstMediaConnector', {
     extend: 'Enlight.app.SubApplication',
 
-    name:'Shopware.apps.OstMediaConnector',
+    name: 'Shopware.apps.OstMediaConnector',
 
     loadPath: '{url action=load}',
     bulkLoad: true,
 
-    controllers: [ 'Main' ],
+    controllers: ['Main'],
 
     views: [
         'OstMediaConnectorConfig.list.Window',
@@ -16,10 +16,10 @@ Ext.define('Shopware.apps.OstMediaConnector', {
         'OstMediaConnectorConfig.detail.Window'
     ],
 
-    models: [ 'OstMediaConnectorConfig', 'MediaProvider' ],
-    stores: [ 'OstMediaConnectorConfig', 'MediaProvider' ],
+    models: ['OstMediaConnectorConfig', 'MediaProvider'],
+    stores: ['OstMediaConnectorConfig', 'MediaProvider'],
 
-    launch: function() {
+    launch: function () {
         return this.getController('Main').mainWindow;
     }
 });

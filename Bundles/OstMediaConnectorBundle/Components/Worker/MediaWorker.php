@@ -6,7 +6,11 @@ interface MediaWorker
 {
     public function getResolution(string $path): array;
 
+
+
     public function getResized(string $path, int $width);
+
+
 
     public function getFileSize(string $path): int;
 }

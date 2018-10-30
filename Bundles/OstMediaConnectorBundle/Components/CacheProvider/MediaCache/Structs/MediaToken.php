@@ -31,10 +31,14 @@ class MediaToken extends AbstractToken
      */
     protected $orderNumber;
 
+
+
     /**
      * @var string
      */
     protected $fileName;
+
+
 
     /**
      * MediaToken constructor.
@@ -48,45 +52,7 @@ class MediaToken extends AbstractToken
         $this->fileName = $fileName;
     }
 
-    /**
-     * @return string
-     */
-    public function getOrderNumber(): string
-    {
-        return $this->orderNumber;
-    }
 
-    /**
-     * @param string $ordernumber
-     */
-    public function setOrderNumber(string $ordernumber)
-    {
-        $this->orderNumber = $ordernumber;
-    }
-
-    /**
-     * @return string
-     */
-    public function getFileName(): string
-    {
-        return $this->fileName;
-    }
-
-    /**
-     * @param string $fileName
-     */
-    public function setFileName(string $fileName)
-    {
-        $this->fileName = $fileName;
-    }
-
-    /**
-     * @return string
-     */
-    public function getToken(): string
-    {
-        return $this->createToken([$this->getFileName(), $this->getOrderNumber()]);
-    }
 
     /**
      * @param string $token
@@ -98,5 +64,55 @@ class MediaToken extends AbstractToken
     public static function fromToken(string $token): self
     {
         return new self(...self::extractToken($token));
+    }
+
+
+
+    /**
+     * @return string
+     */
+    public function getToken(): string
+    {
+        return $this->createToken([$this->getFileName(), $this->getOrderNumber()]);
+    }
+
+
+
+    /**
+     * @return string
+     */
+    public function getFileName(): string
+    {
+        return $this->fileName;
+    }
+
+
+
+    /**
+     * @param string $fileName
+     */
+    public function setFileName(string $fileName)
+    {
+        $this->fileName = $fileName;
+    }
+
+
+
+    /**
+     * @return string
+     */
+    public function getOrderNumber(): string
+    {
+        return $this->orderNumber;
+    }
+
+
+
+    /**
+     * @param string $ordernumber
+     */
+    public function setOrderNumber(string $ordernumber)
+    {
+        $this->orderNumber = $ordernumber;
     }
 }

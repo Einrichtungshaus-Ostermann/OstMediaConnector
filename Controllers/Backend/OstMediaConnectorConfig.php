@@ -14,6 +14,7 @@
  * @copyright 2018 Einrichtungshaus Ostermann GmbH & Co. KG
  * @license   proprietary
  */
+
 namespace OstMediaConnector\Controllers\Backend;
 
 use OstMediaConnector\Models\MediaProvider;
@@ -22,5 +23,8 @@ use Shopware_Controllers_Backend_Application;
 class OstMediaConnectorConfig extends Shopware_Controllers_Backend_Application
 {
     protected $model = MediaProvider::class;
+
+
+
     protected $alias = 'mediaprovider';
 }

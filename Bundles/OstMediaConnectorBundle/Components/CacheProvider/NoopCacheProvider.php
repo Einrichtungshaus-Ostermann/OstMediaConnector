@@ -139,5 +139,4 @@ class NoopCacheProvider implements CacheProvider
     {
         return false;
     }
-
 }

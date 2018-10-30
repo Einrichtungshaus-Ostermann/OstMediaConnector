@@ -23,11 +23,12 @@ use OstMediaConnector\Bundles\OstMediaConnectorBundle\Components\CacheProvider\T
 use OstMediaConnector\Bundles\OstMediaConnectorBundle\Services\MediaService;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-
 class OstMediaConnector extends Enlight_Controller_Action
 {
     /** @var MediaService */
     private $imageService;
+
+
 
     public function preDispatch()
     {
@@ -35,6 +36,8 @@ class OstMediaConnector extends Enlight_Controller_Action
         $plugin = $this->get('kernel')->getPlugins()['OstMediaConnector'];
         $this->imageService = $this->container->get('ost_media_connector.services.image_service');
     }
+
+
 
     public function imageAction()
     {
@@ -64,7 +67,6 @@ class OstMediaConnector extends Enlight_Controller_Action
 
         Shopware()->Events()->addListener(KernelEvents::TERMINATE, function () use ($token) {
             $resourceToken = ResourceToken::fromToken($token);
-
             //TODO: Check if File is correct MD5
         });
     }

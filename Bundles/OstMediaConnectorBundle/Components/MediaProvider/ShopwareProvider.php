@@ -28,10 +28,15 @@ class ShopwareProvider implements MediaProvider
      * @var MediaServiceInterface
      */
     private $mediaService;
+
+
+
     /**
      * @var ModelManager
      */
     private $modelManager;
+
+
 
     /**
      * ShopwareProvider constructor.
@@ -126,23 +131,6 @@ class ShopwareProvider implements MediaProvider
 
 
 
-    /**
-     * @param string $ordernumber
-     *
-     * @return Article|null
-     */
-    private function getArticleByOrdernumber(string $ordernumber)
-    {
-        /** @var Detail $detail */
-        $detail = $this->modelManager->getRepository(Detail::class)->findOneBy(['number' => $ordernumber]);
-
-        if ($detail === null) {
-            return null;
-        }
-
-        return $detail->getArticle();
-    }
-
     private function getMediaForOrdernumber(string $ordernumber, int $imageNumber = 0)
     {
         $article = $this->getArticleByOrdernumber($ordernumber);
@@ -170,6 +158,27 @@ class ShopwareProvider implements MediaProvider
         return $this->getMediaForImage($image);
     }
 
+
+
+    /**
+     * @param string $ordernumber
+     *
+     * @return Article|null
+     */
+    private function getArticleByOrdernumber(string $ordernumber)
+    {
+        /** @var Detail $detail */
+        $detail = $this->modelManager->getRepository(Detail::class)->findOneBy(['number' => $ordernumber]);
+
+        if ($detail === null) {
+            return null;
+        }
+
+        return $detail->getArticle();
+    }
+
+
+
     private function getAllMediaForOrdernumber(string $ordernumber)
     {
         $article = $this->getArticleByOrdernumber($ordernumber);
@@ -187,6 +196,8 @@ class ShopwareProvider implements MediaProvider
 
         return $mediaArray;
     }
+
+
 
     private function getMediaForImage(Image $image)
     {

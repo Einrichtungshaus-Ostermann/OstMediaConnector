@@ -32,6 +32,8 @@ interface MediaProviderListCache
      */
     public function hasMediaProviderList(string $ordernumber): bool;
 
+
+
     /**
      * @param string $ordernumber
      *
@@ -40,6 +42,8 @@ interface MediaProviderListCache
      * @return array
      */
     public function getMediaProviderList(string $ordernumber): array;
+
+
 
     /**
      * @param string $ordernumber

@@ -26,10 +26,14 @@ class TemplateSubscriber implements SubscriberInterface
      */
     private $template;
 
+
+
     public function __construct(Enlight_Template_Manager $template)
     {
         $this->template = $template;
     }
+
+
 
     public static function getSubscribedEvents()
     {
@@ -38,6 +42,8 @@ class TemplateSubscriber implements SubscriberInterface
             'Enlight_Controller_Action_PostDispatch_Frontend' => 'registerViews'
         ];
     }
+
+
 
     public function registerViews(\Enlight_Event_EventArgs $args)
     {

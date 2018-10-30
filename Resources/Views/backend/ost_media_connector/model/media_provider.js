@@ -8,8 +8,8 @@ Ext.define('Shopware.apps.OstMediaConnector.model.MediaProvider', {
     },
 
     fields: [
-        { name: 'name', type: 'string' },
-        { name: 'configParameter', type: 'json' }
+        {name: 'name', type: 'string'},
+        {name: 'configParameter', type: 'json'}
     ]
 });
 

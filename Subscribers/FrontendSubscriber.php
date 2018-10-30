@@ -26,14 +26,22 @@ class FrontendSubscriber implements SubscriberInterface
      * @var LegacyStructConverter
      */
     private $legacyStructConverter;
+
+
+
     /**
      * @var MediaService
      */
     private $mediaService;
+
+
+
     /**
      * @var array
      */
     private $config;
+
+
 
     public function __construct(LegacyStructConverter $legacyStructConverter, MediaService $mediaService, array $config)
     {
@@ -42,6 +50,8 @@ class FrontendSubscriber implements SubscriberInterface
         $this->config = $config;
     }
 
+
+
     public static function getSubscribedEvents()
     {
         return [
@@ -49,6 +59,8 @@ class FrontendSubscriber implements SubscriberInterface
             'Legacy_Struct_Converter_Convert_List_Product' => 'onConvertListProduct',
         ];
     }
+
+
 
     public function onConvertProduct(\Enlight_Event_EventArgs $args)
     {
@@ -89,6 +101,8 @@ class FrontendSubscriber implements SubscriberInterface
 
         $args->setReturn($sArticle);
     }
+
+
 
     public function onConvertListProduct(\Enlight_Event_EventArgs $args)
     {

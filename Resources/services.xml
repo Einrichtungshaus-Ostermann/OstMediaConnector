@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<container xmlns="http://symfony.com/schema/dic/services"
-           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns="http://symfony.com/schema/dic/services"
            xsi:schemaLocation="http://symfony.com/schema/dic/services
         http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <imports>
         <import resource="../Bundles/OstMediaConnectorBundle/DependencyInjection/services.xml"/>
     </imports>
-    
+
     <services>
         <!-- Custom Services -->
         <service id="ost_media_connector.config" class="Shopware\Components\Plugin\CachedConfigReader">
@@ -16,19 +16,22 @@
         </service>
 
         <!-- Event Subscribers -->
-        <service id="ost_media_connector.subscribers.frontend_subscriber" class="OstMediaConnector\Subscribers\FrontendSubscriber">
-            <tag name="shopware.event_subscriber" />
+        <service id="ost_media_connector.subscribers.frontend_subscriber"
+                 class="OstMediaConnector\Subscribers\FrontendSubscriber">
+            <tag name="shopware.event_subscriber"/>
             <argument type="service" id="legacy_struct_converter"/>
             <argument type="service" id="ost_media_connector.services.image_service"/>
             <argument type="service" id="ost_media_connector.config"/>
         </service>
 
-        <service id="ost_media_connector.subscribers.controller_path" class="OstMediaConnector\Subscribers\ControllerPath">
-            <tag name="shopware.event_subscriber" />
+        <service id="ost_media_connector.subscribers.controller_path"
+                 class="OstMediaConnector\Subscribers\ControllerPath">
+            <tag name="shopware.event_subscriber"/>
         </service>
 
-        <service id="ost_media_connector.subscribers.template_subscriber" class="OstMediaConnector\Subscribers\TemplateSubscriber">
-            <tag name="shopware.event_subscriber" />
+        <service id="ost_media_connector.subscribers.template_subscriber"
+                 class="OstMediaConnector\Subscribers\TemplateSubscriber">
+            <tag name="shopware.event_subscriber"/>
             <argument type="service" id="template"/>
         </service>
         <!-- Decorations -->

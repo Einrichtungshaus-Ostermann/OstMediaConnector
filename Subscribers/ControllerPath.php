@@ -28,6 +28,8 @@ class ControllerPath implements SubscriberInterface
         ];
     }
 
+
+
     /**
      * Register the backend controller
      *
@@ -40,6 +42,8 @@ class ControllerPath implements SubscriberInterface
     {
         return __DIR__ . '/../Controllers/Backend/OstMediaConnector.php';
     }
+
+
 
     /**
      * Register the frontend controller

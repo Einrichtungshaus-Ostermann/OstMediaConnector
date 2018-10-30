@@ -31,6 +31,8 @@ interface MediaAssociationCache
      */
     public function hasMediaAssociation(string $ordernumber, int $imageNumber): bool;
 
+
+
     /**
      * @param string $ordernumber
      * @param int $imageNumber
@@ -40,6 +42,8 @@ interface MediaAssociationCache
      * @return string
      */
     public function getMediaAssociation(string $ordernumber, int $imageNumber): string;
+
+
 
     /**
      * @param string $ordernumber

@@ -24,11 +24,15 @@ class CachedMediaProviderList extends MediaProviderListProvider
     /** @var array|null */
     private $cache;
 
+
+
     public function __construct(MediaProviderListProvider $mediaProviderListProvider, $cache)
     {
         parent::__construct($mediaProviderListProvider->getMediaProviderList());
         $this->cache = $cache;
     }
+
+
 
     public function getConfiguredProviderList(string $ordernumber): array
     {
@@ -63,6 +67,8 @@ class CachedMediaProviderList extends MediaProviderListProvider
 
         return $returnData;
     }
+
+
 
     /**
      * @return array

@@ -9,11 +9,11 @@ Ext.define('Shopware.apps.OstMediaConnector.model.OstMediaConnectorConfig', {
     },
 
     fields: [
-        { name: 'id', type: 'int', useNull: true },
-        { name: 'priority', type: 'int' },
-        { name: 'providerName', type: 'string' },
-        { name: 'query', type: 'string' },
-        { name: 'config', type: 'json'}
+        {name: 'id', type: 'int', useNull: true},
+        {name: 'priority', type: 'int'},
+        {name: 'providerName', type: 'string'},
+        {name: 'query', type: 'string'},
+        {name: 'config', type: 'json'}
     ]
 });
 

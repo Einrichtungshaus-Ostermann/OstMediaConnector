@@ -44,19 +44,28 @@ class CachedImageService implements MediaService
      */
     private $mediaWorker;
 
+
+
     /**
      * @var MediaProviderListProvider
      */
     private $mediaProviderListProvider;
 
+
+
     /**
      * @var MediaCache
      */
     private $mediaCache;
+
+
+
     /**
      * @var Router
      */
     private $router;
+
+
 
     /**
      * ImageService constructor.
@@ -73,6 +82,74 @@ class CachedImageService implements MediaService
         $this->mediaCache = $mediaCache;
         $this->router = $router;
     }
+
+
+
+    /**
+     * @param string $token
+     *
+     * @throws InvalidTokenException
+     *
+     * @return resource|null
+     */
+    public function getResource(string $token)
+    {
+        $resourceToken = ResourceToken::fromToken($token);
+
+        if ($this->mediaCache->hasResource($resourceToken)) {
+            try {
+                return $this->mediaCache->getResource($resourceToken);
+            } catch (ResourceNotFoundException $e) {
+            }
+        }
+
+        $image = $this->mediaWorker->getResized($resourceToken->getFileName(), $resourceToken->getWidth());
+        $this->mediaCache->storeResource($resourceToken, $image);
+
+        return $image;
+    }
+
+
+
+    /**
+     * @param string $ordernumber
+     *
+     * @return array
+     */
+    public function getAll(string $ordernumber): array
+    {
+        $mediaArray = [];
+        $amount = $this->count($ordernumber);
+        for ($i = 0; $i < $amount; ++$i) {
+            $mediaArray[] = $this->getMedia($ordernumber, $i);
+        }
+
+        return $mediaArray;
+    }
+
+
+
+    /**
+     * @param string $ordernumber
+     *
+     * @return int
+     */
+    public function count(string $ordernumber): int
+    {
+        /** @var MediaProvider[] $mediaProviderList */
+        $mediaProviderList = $this->mediaProviderListProvider->getConfiguredProviderList($ordernumber);
+
+        $count = 0;
+        if (\count($mediaProviderList) !== 0) {
+            foreach ($mediaProviderList as $mediaProvider) {
+                $count += $mediaProvider->count($ordernumber);
+            }
+        }
+
+        return $count;
+    }
+
+
 
     /**
      * Returns a Media for an Ordernumber
@@ -196,69 +273,27 @@ class CachedImageService implements MediaService
         return $this->getMediaFromCachedMedia($media);
     }
 
-    /**
-     * @param string $token
-     *
-     * @throws InvalidTokenException
-     *
-     * @return resource|null
-     */
-    public function getResource(string $token)
-    {
-        $resourceToken = ResourceToken::fromToken($token);
 
-        if ($this->mediaCache->hasResource($resourceToken)) {
-            try {
-                return $this->mediaCache->getResource($resourceToken);
-            } catch (ResourceNotFoundException $e) {
-            }
-        }
-
-        $image = $this->mediaWorker->getResized($resourceToken->getFileName(), $resourceToken->getWidth());
-        $this->mediaCache->storeResource($resourceToken, $image);
-
-        return $image;
-    }
-
-    /**
-     * @param string $ordernumber
-     *
-     * @return array
-     */
-    public function getAll(string $ordernumber): array
-    {
-        $mediaArray = [];
-        $amount = $this->count($ordernumber);
-        for ($i = 0; $i < $amount; ++$i) {
-            $mediaArray[] = $this->getMedia($ordernumber, $i);
-        }
-
-        return $mediaArray;
-    }
-
-    /**
-     * @param string $ordernumber
-     *
-     * @return int
-     */
-    public function count(string $ordernumber): int
-    {
-        /** @var MediaProvider[] $mediaProviderList */
-        $mediaProviderList = $this->mediaProviderListProvider->getConfiguredProviderList($ordernumber);
-
-        $count = 0;
-        if (\count($mediaProviderList) !== 0) {
-            foreach ($mediaProviderList as $mediaProvider) {
-                $count += $mediaProvider->count($ordernumber);
-            }
-        }
-
-        return $count;
-    }
 
     public function getAllMediaProvider(): array
     {
         return $this->mediaProviderListProvider->getMediaProviderList();
+    }
+
+
+
+    private function getMediaFromCache(string $ordernumber, string $imagePath)
+    {
+        $mediaToken = new MediaToken($ordernumber, $imagePath);
+
+        if ($this->mediaCache->hasMedia($mediaToken)) {
+            try {
+                return $this->mediaCache->getMedia($mediaToken);
+            } catch (MediaNotFoundException $e) {
+            }
+        }
+
+        return null;
     }
 
 
@@ -277,22 +312,6 @@ class CachedImageService implements MediaService
         }
 
         return new Media($cachedMedia->getFile(), $cachedMedia->getHeight(), $cachedMedia->getWidth(), $cachedMedia->getFileSize(), $thumbnails);
-    }
-
-
-
-    private function getMediaFromCache(string $ordernumber, string $imagePath)
-    {
-        $mediaToken = new MediaToken($ordernumber, $imagePath);
-
-        if ($this->mediaCache->hasMedia($mediaToken)) {
-            try {
-                return $this->mediaCache->getMedia($mediaToken);
-            } catch (MediaNotFoundException $e) {
-            }
-        }
-
-        return null;
     }
 
 

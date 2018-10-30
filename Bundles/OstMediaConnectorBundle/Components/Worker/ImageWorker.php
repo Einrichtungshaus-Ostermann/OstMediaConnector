@@ -17,38 +17,12 @@ class ImageWorker implements MediaWorker
 
 
 
-    /**
-     * @param string $imagePath
-     *
-     * @return null|resource
-     */
-    public function getBinaryImage(string $imagePath)
+    public function getResized(string $path, int $width)
     {
-        $fileType = strtoupper(pathinfo($imagePath, PATHINFO_EXTENSION));
-
-        switch ($fileType) {
-            case 'JPG':
-            case 'JPEG':
-                return imagecreatefromjpeg($imagePath);
-                break;
-
-            case'PNG':
-                return imagecreatefrompng($imagePath);
-                break;
-
-            case'GIF':
-                return imagecreatefromgif($imagePath);
-                break;
-
-            default:
-                return null;
-        }
+        return $this->getResizedBinary($path, $width);
     }
 
-    public function getResolution(string $path): array
-    {
-        return getimagesize($path);
-    }
+
 
     /**
      * @param string $imagePath
@@ -101,8 +75,40 @@ class ImageWorker implements MediaWorker
         return $newBinaryImage;
     }
 
-    public function getResized(string $path, int $width)
+
+
+    /**
+     * @param string $imagePath
+     *
+     * @return null|resource
+     */
+    public function getBinaryImage(string $imagePath)
     {
-        return $this->getResizedBinary($path, $width);
+        $fileType = strtoupper(pathinfo($imagePath, PATHINFO_EXTENSION));
+
+        switch ($fileType) {
+            case 'JPG':
+            case 'JPEG':
+                return imagecreatefromjpeg($imagePath);
+                break;
+
+            case'PNG':
+                return imagecreatefrompng($imagePath);
+                break;
+
+            case'GIF':
+                return imagecreatefromgif($imagePath);
+                break;
+
+            default:
+                return null;
+        }
+    }
+
+
+
+    public function getResolution(string $path): array
+    {
+        return getimagesize($path);
     }
 }

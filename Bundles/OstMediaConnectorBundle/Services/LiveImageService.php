@@ -37,15 +37,21 @@ class LiveImageService implements MediaService
      */
     private $mediaWorker;
 
+
+
     /**
      * @var MediaProviderListProvider
      */
     private $mediaProviderListProvider;
 
+
+
     /**
      * @var Router
      */
     private $router;
+
+
 
     /**
      * ImageService constructor.
@@ -60,6 +66,8 @@ class LiveImageService implements MediaService
         $this->mediaProviderListProvider = $mediaProviderListProvider;
         $this->router = $router;
     }
+
+
 
     /**
      * @param string $token
@@ -77,6 +85,8 @@ class LiveImageService implements MediaService
         return $image;
     }
 
+
+
     /**
      * @param string $ordernumber
      *
@@ -92,6 +102,8 @@ class LiveImageService implements MediaService
 
         return $mediaArray;
     }
+
+
 
     /**
      * @param string $ordernumber
@@ -112,6 +124,8 @@ class LiveImageService implements MediaService
 
         return $count;
     }
+
+
 
     /**
      * Returns a Media for an Ordernumber
@@ -239,8 +253,11 @@ class LiveImageService implements MediaService
         return new Media($cachedMedia->getFile(), $cachedMedia->getHeight(), $cachedMedia->getWidth(), $cachedMedia->getFileSize(), $thumbnails);
     }
 
+
+
     private function createImageUrl(string $token, CachedMedia $cachedMedia): string
     {
-        return $this->router->assemble(['controller' => 'OstMediaConnector', 'action' => 'image', $token => $cachedMedia->getSeoName()]);
+        return $this->router->assemble(['controller' => 'OstMediaConnector', 'action' => 'image',
+                                        $token       => $cachedMedia->getSeoName()]);
     }
 }

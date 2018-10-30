@@ -30,20 +30,32 @@ class RedisCacheProvider implements CacheProvider
     /** @var \Redis $redis */
     protected $redis;
 
+
+
     /** @var int */
     protected $mediaCacheTTL;
+
+
 
     /** @var int */
     protected $resourceCacheTTL;
 
+
+
     /** @var int */
     protected $mediaProviderListCacheTTL;
+
+
 
     /** @var int */
     protected $mediaAssociationTTL;
 
+
+
     /** @var string */
     protected $prefix = 'MEDIASERVER:';
+
+
 
     /**
      * RedisCacheProvider constructor.
@@ -58,21 +70,11 @@ class RedisCacheProvider implements CacheProvider
         $this->mediaAssociationTTL = (int)$config['mediaAssociationTTL'];
     }
 
+
+
     public function getName(): string
     {
         return 'RedisCacheProvider';
-    }
-
-
-
-    protected function initRedis()
-    {
-        if ($this->redis !== null) {
-            return;
-        }
-
-        $this->redis = new \Redis();
-        $this->redis->connect('localhost');
     }
 
 
@@ -90,6 +92,8 @@ class RedisCacheProvider implements CacheProvider
 
         return $this->redis->exists($key);
     }
+
+
 
     /**
      * @param CachedMedia $cachedMedia
@@ -112,6 +116,8 @@ class RedisCacheProvider implements CacheProvider
 
         return true;
     }
+
+
 
     /**
      * @param MediaToken $mediaToken
@@ -139,8 +145,9 @@ class RedisCacheProvider implements CacheProvider
 
 
     /**
-     * @return MediaToken[]
      * @throws Token\InvalidTokenException
+     *
+     * @return MediaToken[]
      */
     public function getAllMediaTokens(): array
     {
@@ -158,6 +165,8 @@ class RedisCacheProvider implements CacheProvider
         return $mediaTokens;
     }
 
+
+
     /**
      * @param MediaToken $mediaToken
      *
@@ -172,6 +181,8 @@ class RedisCacheProvider implements CacheProvider
         return $this->redis->delete($key) === 1;
     }
 
+
+
     /**
      * @param ResourceToken $resourceToken
      *
@@ -185,6 +196,8 @@ class RedisCacheProvider implements CacheProvider
 
         return $this->redis->exists($key);
     }
+
+
 
     /**
      * @param ResourceToken $resourceToken
@@ -214,6 +227,8 @@ class RedisCacheProvider implements CacheProvider
         return true;
     }
 
+
+
     /**
      * @param ResourceToken $resourceToken
      *
@@ -240,8 +255,9 @@ class RedisCacheProvider implements CacheProvider
 
 
     /**
-     * @return ResourceToken[]
      * @throws Token\InvalidTokenException
+     *
+     * @return ResourceToken[]
      */
     public function getAllResourceTokens(): array
     {
@@ -259,6 +275,8 @@ class RedisCacheProvider implements CacheProvider
         return $resourceTokens;
     }
 
+
+
     /**
      * @param ResourceToken $resourceToken
      *
@@ -273,6 +291,8 @@ class RedisCacheProvider implements CacheProvider
         return $this->redis->delete($key) === 1;
     }
 
+
+
     public function hasMediaProviderList(string $ordernumber): bool
     {
         $this->initRedis();
@@ -281,6 +301,8 @@ class RedisCacheProvider implements CacheProvider
 
         return $this->redis->exists($key);
     }
+
+
 
     /**
      * @param string $ordernumber
@@ -305,6 +327,8 @@ class RedisCacheProvider implements CacheProvider
         return json_decode($config, true);
     }
 
+
+
     public function storeMediaProviderList(string $ordernumber, CachedMediaProviderList $mediaProviderList): bool
     {
         $this->initRedis();
@@ -322,6 +346,8 @@ class RedisCacheProvider implements CacheProvider
         return true;
     }
 
+
+
     public function hasMediaAssociation(string $ordernumber, int $imageNumber): bool
     {
         $this->initRedis();
@@ -330,6 +356,8 @@ class RedisCacheProvider implements CacheProvider
 
         return $this->redis->exists($key);
     }
+
+
 
     public function getMediaAssociation(string $ordernumber, int $imageNumber): string
     {
@@ -346,6 +374,8 @@ class RedisCacheProvider implements CacheProvider
 
         return $path;
     }
+
+
 
     public function storeMediaAssociation(string $ordernumber, int $imageNumber, string $path): bool
     {
@@ -366,6 +396,18 @@ class RedisCacheProvider implements CacheProvider
 
 
 
+    protected function initRedis()
+    {
+        if ($this->redis !== null) {
+            return;
+        }
+
+        $this->redis = new \Redis();
+        $this->redis->connect('localhost');
+    }
+
+
+
     /**
      * @param MediaToken $mediaToken
      *
@@ -381,6 +423,30 @@ class RedisCacheProvider implements CacheProvider
     private function getMediaKey(string $token): string
     {
         return $this->prefix . 'media_' . $token;
+    }
+
+
+
+    /**
+     * @param string $pattern
+     *
+     * @return array
+     */
+    private function getAllKeysForPattern(string $pattern): array
+    {
+        $this->redis->setOption(\Redis::OPT_SCAN, \Redis::SCAN_RETRY);
+        $it = null;
+        $keys = [];
+
+        /* phpredis will retry the SCAN command if empty results are returned from the
+           server, so no empty results check is required. */
+        while ($arr_keys = $this->redis->scan($it, $pattern)) {
+            foreach ($arr_keys as $str_key) {
+                $keys[] = $str_key;
+            }
+        }
+
+        return $keys;
     }
 
 
@@ -414,27 +480,5 @@ class RedisCacheProvider implements CacheProvider
     private function getMediaAssociationKey(string $ordernumber, int $imageNumber): string
     {
         return $this->prefix . 'mediaAssociation_' . $ordernumber . '_' . $imageNumber;
-    }
-
-    /**
-     * @param string $pattern
-     *
-     * @return array
-     */
-    private function getAllKeysForPattern(string $pattern): array
-    {
-        $this->redis->setOption(\Redis::OPT_SCAN, \Redis::SCAN_RETRY);
-        $it = null;
-        $keys = [];
-
-        /* phpredis will retry the SCAN command if empty results are returned from the
-           server, so no empty results check is required. */
-        while ($arr_keys = $this->redis->scan($it, $pattern)) {
-            foreach ($arr_keys as $str_key) {
-                $keys[] = $str_key;
-            }
-        }
-
-        return $keys;
     }
 }

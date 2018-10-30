@@ -20,11 +20,15 @@ class InvalidTokenException extends \Exception
 {
     private $token;
 
+
+
     public function __construct($token = '')
     {
         parent::__construct();
         $this->token = $token;
     }
+
+
 
     /**
      * @return string

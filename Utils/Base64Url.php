@@ -25,6 +25,8 @@ class Base64Url
         return str_replace(['=', '+', '/'], ['', '-', '_'], base64_encode($arg));
     }
 
+
+
     /**
      * @param string $arg
      *

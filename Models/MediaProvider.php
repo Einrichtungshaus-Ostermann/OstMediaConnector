@@ -33,12 +33,16 @@ class MediaProvider extends ModelEntity
      */
     private $id;
 
+
+
     /**
      * @ORM\Column(type="string")
      *
      * @var string
      */
     private $providerName;
+
+
 
     /**
      * @ORM\Column(type="integer", unique=true)
@@ -47,6 +51,8 @@ class MediaProvider extends ModelEntity
      */
     private $priority;
 
+
+
     /**
      * @ORM\Column(type="string", nullable=true)
      *
@@ -54,12 +60,16 @@ class MediaProvider extends ModelEntity
      */
     private $query;
 
+
+
     /**
      * @ORM\Column(type="text")
      *
      * @var string
      */
     private $config;
+
+
 
     /**
      * @return int
@@ -69,6 +79,8 @@ class MediaProvider extends ModelEntity
         return $this->id;
     }
 
+
+
     /**
      * @return string
      */
@@ -76,6 +88,8 @@ class MediaProvider extends ModelEntity
     {
         return $this->providerName;
     }
+
+
 
     /**
      * @param string $providerName
@@ -85,6 +99,8 @@ class MediaProvider extends ModelEntity
         $this->providerName = $providerName;
     }
 
+
+
     /**
      * @return int
      */
@@ -92,6 +108,8 @@ class MediaProvider extends ModelEntity
     {
         return $this->priority;
     }
+
+
 
     /**
      * @param int $priority
@@ -101,6 +119,8 @@ class MediaProvider extends ModelEntity
         $this->priority = $priority;
     }
 
+
+
     /**
      * @return string
      */
@@ -108,6 +128,8 @@ class MediaProvider extends ModelEntity
     {
         return $this->query;
     }
+
+
 
     /**
      * @param string $query
@@ -117,6 +139,8 @@ class MediaProvider extends ModelEntity
         $this->query = $query;
     }
 
+
+
     /**
      * @return string
      */
@@ -124,6 +148,8 @@ class MediaProvider extends ModelEntity
     {
         return $this->config;
     }
+
+
 
     /**
      * @param string $config

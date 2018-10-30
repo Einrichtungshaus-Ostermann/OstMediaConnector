@@ -28,10 +28,14 @@ class MediaProviderListProvider implements MediaProviderList
      */
     private $mediaProvider;
 
+
+
     /**
      * @var MediaProvider[]
      */
     private $configuredMediaProvider;
+
+
 
     /**
      * MediaProviderListProvider constructor.
@@ -118,20 +122,6 @@ class MediaProviderListProvider implements MediaProviderList
 
 
     /**
-     * @param MediaProvider $mediaProvider
-     * @param array $config
-     *
-     * @return MediaProvider
-     */
-    private function createConfiguredInstance(MediaProvider $mediaProvider, array $config): MediaProvider
-    {
-        $mediaProviderClone = clone $mediaProvider;
-        $mediaProviderClone->setConfig($config);
-
-        return $mediaProviderClone;
-    }
-
-    /**
      * @param string $ordernumber
      * @param string $query
      *
@@ -206,6 +196,8 @@ class MediaProviderListProvider implements MediaProviderList
         return $evalReturn;
     }
 
+
+
     /**
      * @param $array
      * @param $key
@@ -239,5 +231,21 @@ class MediaProviderListProvider implements MediaProviderList
         }
 
         return $array;
+    }
+
+
+
+    /**
+     * @param MediaProvider $mediaProvider
+     * @param array $config
+     *
+     * @return MediaProvider
+     */
+    private function createConfiguredInstance(MediaProvider $mediaProvider, array $config): MediaProvider
+    {
+        $mediaProviderClone = clone $mediaProvider;
+        $mediaProviderClone->setConfig($config);
+
+        return $mediaProviderClone;
     }
 }

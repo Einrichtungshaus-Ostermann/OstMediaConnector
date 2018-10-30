@@ -28,12 +28,16 @@ interface MediaCache
      */
     public function hasMedia(MediaToken $mediaToken): bool;
 
+
+
     /**
      * @param CachedMedia $cachedMedia
      *
      * @return bool
      */
     public function storeMedia(CachedMedia $cachedMedia): bool;
+
+
 
     /**
      * @param MediaToken $mediaToken
@@ -44,10 +48,14 @@ interface MediaCache
      */
     public function getMedia(MediaToken $mediaToken): CachedMedia;
 
+
+
     /**
      * @return MediaToken[]
      */
     public function getAllMediaTokens(): array;
+
+
 
     /**
      * @param MediaToken $mediaToken

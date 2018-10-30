@@ -27,6 +27,8 @@ interface ResourceCache
      */
     public function hasResource(ResourceToken $resourceToken): bool;
 
+
+
     /**
      * @param ResourceToken $resourceToken
      * @param $resource
@@ -34,6 +36,8 @@ interface ResourceCache
      * @return bool
      */
     public function storeResource(ResourceToken $resourceToken, $resource): bool;
+
+
 
     /**
      * @param ResourceToken $resourceToken
@@ -44,10 +48,14 @@ interface ResourceCache
      */
     public function getResource(ResourceToken $resourceToken);
 
+
+
     /**
      * @return ResourceToken[]
      */
     public function getAllResourceTokens(): array;
+
+
 
     /**
      * @param ResourceToken $resourceToken

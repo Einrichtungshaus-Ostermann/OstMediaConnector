@@ -2,9 +2,9 @@ Ext.define('Shopware.apps.OstMediaConnector.view.OstMediaConnectorConfig.list.Wi
     extend: 'Shopware.window.Listing',
     alias: 'widget.mediaserver-list-window',
     height: 450,
-    title : '{s name=window_title}Mediaserver Liste{/s}',
+    title: '{s name=window_title}Mediaserver Liste{/s}',
 
-    configure: function() {
+    configure: function () {
         return {
             listingGrid: 'Shopware.apps.OstMediaConnector.view.OstMediaConnectorConfig.list.List',
             listingStore: 'Shopware.apps.OstMediaConnector.store.OstMediaConnectorConfig'

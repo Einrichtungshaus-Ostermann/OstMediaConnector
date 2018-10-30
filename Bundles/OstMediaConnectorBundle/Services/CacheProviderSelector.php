@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Einrichtungshaus Ostermann GmbH & Co. KG - Media Connector
  *
@@ -36,6 +36,7 @@ class CacheProviderSelector
 
     /**
      * CacheProviderSelector constructor.
+     *
      * @param CacheProvider[] $cacheProviders
      * @param array $config
      */
@@ -45,9 +46,12 @@ class CacheProviderSelector
         $this->config = $config;
     }
 
-    public function getCacheProvider() {
+
+
+    public function getCacheProvider()
+    {
         foreach ($this->cacheProviders as $cacheProvider) {
-            if ($cacheProvider->getName() === $this->config['cacheProvider']){
+            if ($cacheProvider->getName() === $this->config['cacheProvider']) {
                 return $cacheProvider;
             }
         }
