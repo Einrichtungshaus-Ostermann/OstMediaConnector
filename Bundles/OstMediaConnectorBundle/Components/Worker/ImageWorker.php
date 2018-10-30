@@ -6,7 +6,13 @@ class ImageWorker implements MediaWorker
 {
     public function getFileSize(string $path): int
     {
-        return filesize($path);
+        $size = filesize($path);
+
+        if ($size === false) {
+            return -1;
+        }
+
+        return $size;
     }
 
 
