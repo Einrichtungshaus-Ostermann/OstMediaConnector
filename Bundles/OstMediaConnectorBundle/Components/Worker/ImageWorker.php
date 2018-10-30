@@ -7,10 +7,10 @@ class ImageWorker implements MediaWorker
     public function getFileSize(string $path): int
     {
         if ( strpos( strtolower( $path ), "http://" ) === false && strpos( strtolower( $path ), "https://" ) === false )
-            $size = filesize($path);
+            $size = (int) filesize($path);
         else {
-            $header = get_headers( $path );
-            $size = $header['Content-Length'];
+            $header = get_headers( $path, 1 );
+            $size = (int) $header['Content-Length'];
         }
 
         return $size;
