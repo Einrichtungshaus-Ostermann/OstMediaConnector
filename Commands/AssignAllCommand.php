@@ -55,6 +55,10 @@ class AssignAllCommand extends ShopwareCommand
                     continue;
                 }
 
+                if (empty($detail->getArticle()->getName())) {
+                    continue;
+                }
+
                 $params = [
                     'album'       => '-1',
                     'file'        => $image->getFile(),
