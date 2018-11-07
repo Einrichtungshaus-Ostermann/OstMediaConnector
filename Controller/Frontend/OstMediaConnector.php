@@ -14,7 +14,7 @@
  * @license   proprietary
  */
 
-namespace OstMediaConnector\Controllers\Frontend;
+namespace OstMediaConnector\Controller\Frontend;
 
 use Enlight_Controller_Action;
 use OstMediaConnector\Bundles\OstMediaConnectorBundle\Components\CacheProvider\ResourceCache\ResourceNotFoundException;

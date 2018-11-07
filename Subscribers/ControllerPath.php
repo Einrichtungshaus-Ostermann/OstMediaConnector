@@ -40,7 +40,7 @@ class ControllerPath implements SubscriberInterface
      */
     public function onGetControllerPathBackend(\Enlight_Event_EventArgs $args)
     {
-        return __DIR__ . '/../Controllers/Backend/OstMediaConnector.php';
+        return __DIR__ . '/../Controller/Backend/OstMediaConnector.php';
     }
 
 
@@ -55,6 +55,6 @@ class ControllerPath implements SubscriberInterface
      */
     public function onGetControllerPathFrontend(\Enlight_Event_EventArgs $args)
     {
-        return __DIR__ . '/../Controllers/Frontend/OstMediaConnector.php';
+        return __DIR__ . '/../Controller/Frontend/OstMediaConnector.php';
     }
 }

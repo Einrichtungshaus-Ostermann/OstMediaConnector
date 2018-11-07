@@ -15,7 +15,7 @@
  * @license   proprietary
  */
 
-namespace OstMediaConnector\Controllers\Backend;
+namespace OstMediaConnector\Controller\Backend;
 
 use OstMediaConnector\Bundles\OstMediaConnectorBundle\Components\MediaProvider\MediaProvider;
 use Shopware_Controllers_Backend_ExtJs;
