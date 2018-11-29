@@ -237,6 +237,10 @@ class CachedImageService implements MediaService
         if ($media === null) {
             list($originalWidth, $originalHeight) = $this->mediaWorker->getResolution($imagePath);
 
+            if ($originalHeight === 0 || $originalWidth === 0) {
+                return null;
+            }
+
             /** @var Album $articleAlbum */
             $articleAlbum = Shopware()->Models()->getRepository(Album::class)->findOneBy(['id' => Album::ALBUM_ARTICLE]);
             $thumbnailSizes = $articleAlbum->getSettings()->getThumbnailSize();

@@ -45,6 +45,10 @@ class ImageWorker implements MediaWorker
 
         list($originalWidth, $originalHeight) = $this->getResolution($imagePath);
 
+        if ($originalHeight === 0 || $originalWidth === 0) {
+            return null;
+        }
+
         if ($requestedWidth === null) {
             $requestedWidth = $originalWidth;
         }
@@ -110,6 +114,12 @@ class ImageWorker implements MediaWorker
 
     public function getResolution(string $path): array
     {
-        return getimagesize($path);
+        $imageSize = getimagesize($path);
+
+        if ($imageSize === false) {
+            return [0,0];
+        }
+
+        return $imageSize;
     }
 }
