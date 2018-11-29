@@ -114,7 +114,7 @@ class ImageWorker implements MediaWorker
 
     public function getResolution(string $path): array
     {
-        $imageSize = getimagesize($path);
+        $imageSize = @getimagesize($path);
 
         if ($imageSize === false) {
             return [0,0];
