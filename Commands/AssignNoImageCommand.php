@@ -111,7 +111,7 @@ class AssignNoImageCommand extends ShopwareCommand
                         'relations'         => '',
                         'extension'         => $media->getExtension(),
                         'parent_id'         => null,
-                        'article_detail_id' => null,
+                        'article_detail_id' => $detail->getId(),
                         'media_id'          => $media->getId(),
                     ])->execute();
             }
