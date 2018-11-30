@@ -2,16 +2,27 @@
 
 namespace OstMediaConnector\Commands;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use OstMediaConnector\Bundles\OstMediaConnectorBundle\Services\Structs\Media as OstMediaConnectorMedia;
 use Shopware\Commands\ShopwareCommand;
+use Shopware\Components\Model\ModelManager;
+use Shopware\Models\Article\Article;
+use Shopware\Models\Article\Configurator\Option;
 use Shopware\Models\Article\Detail;
-use Shopware\Models\Media\Album;
+use Shopware\Models\Article\Image;
+use Shopware\Models\Media\Media;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class AssignNoImageCommand extends ShopwareCommand
 {
+    /** @var ModelManager */
+    private $models;
+
+    /** @var \Shopware\Components\Api\Resource\Media */
+    private $mediaApi;
+
     /**
      * {@inheritdoc}
      *
@@ -23,7 +34,6 @@ class AssignNoImageCommand extends ShopwareCommand
     }
 
 
-
     /**
      * {@inheritdoc}
      *
@@ -33,91 +43,191 @@ class AssignNoImageCommand extends ShopwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->mediaApi = $this->container->get('shopware.api.media');
+        $this->models = $this->container->get('models');
+        $this->mediaApi->setManager($this->models);
         $liveImageService = $this->container->get('ost_media_connector.services.live_image_service');
 
-        $mediaApi = $this->container->get('shopware.api.media');
-        $models = $this->container->get('models');
-        $mediaApi->setManager($models);
-
         $qb = $this->container->get('dbal_connection')->createQueryBuilder();
-        $qb->select('articleID', 'ordernumber')
-            ->from('s_articles_details')
-            ->where('articleID NOT IN (SELECT articleID FROM s_articles_img)');
+        $qb->select('id')
+            ->from('s_articles')
+            ->where('id NOT IN (SELECT articleID FROM s_articles_img where articleID is not null)');
         $result = $qb->execute()->fetchAll(\PDO::FETCH_ASSOC);
 
         $progressBar = new ProgressBar($output, \count($result));
-        //$progressBar->setRedrawFrequency(20);
         $progressBar->start();
 
-        /** @var Album $album */
-        $album = $models->getRepository(Album::class)->find(Album::ALBUM_ARTICLE);
+        foreach ($result as $articleRow) {
+            $articleId = $articleRow['id'];
 
-        foreach ($result as $row) {
-            $number = $row['ordernumber'];
+            /** @var Article|null $article */
+            $article = $this->models->getRepository(Article::class)->findOneBy(['id' => $articleId]);
 
-            try {
-                /** @var Detail|null $detail */
-                $detail = $models->getRepository(Detail::class)->findOneBy(['number' => $number]);
-            } catch (\Exception $exception) {
-                $output->writeln($exception->getMessage());
+            if ($article === null) {
                 continue;
             }
 
-            if ($detail === null) {
-                continue;
-            }
+            $mainDetailId = $article->getMainDetail()->getId();
+            $imagePosition = 1;
+            /** @var Detail $detail */
+            foreach ($article->getDetails() as $detailIndex => $detail) {
 
-            /** @var OstMediaConnectorMedia[] $images */
-            $images = $liveImageService->getAll($number);
+                /** @var OstMediaConnectorMedia[] $images */
+                $images = $liveImageService->getAll($detail->getNumber());
+                foreach ($images as $imageIndex => $image) {
+                    if ($image === null) {
+                        continue;
+                    }
 
-            foreach ($images as $index => $image) {
-                if ($image === null) {
-                    continue;
+                    if (!$detail->getConfiguratorOptions()->isEmpty()) {
+                        if ($detail->getId() === $mainDetailId) {
+                            $isMain = true;
+                        } else {
+                            $isMain = false;
+                        }
+                    } else {
+                        $isMain = ($imagePosition === 1);
+                    }
+
+                    $media = $this->importImage($image, $article->getId(), $isMain, $imagePosition);
+
+                    if (!$detail->getConfiguratorOptions()->isEmpty() && $detail->getId() !== $mainDetailId) {
+                        $this->createImageRules($media, $detail);
+                    }
+
+                    $imagePosition++;
                 }
-
-                $params = [
-                    'album'       => -1,
-                    'file'        => $image->getFile(),
-                    'description' => $detail->getArticle()->getName()
-                ];
-
-                $media = $mediaApi->create($params);
-
-                $imageNumber = $index;
-                ++$imageNumber;
-
-                $models->getDBALQueryBuilder()->insert('s_articles_img')
-                    ->values([
-                        'articleID'         => ':articleID',
-                        'img'               => ':img',
-                        'main'              => ':main',
-                        'description'       => ':description',
-                        'position'          => ':position',
-                        'width'             => ':width',
-                        'height'            => ':height',
-                        'relations'         => ':relations',
-                        'extension'         => ':extension',
-                        'parent_id'         => ':parent_id',
-                        'article_detail_id' => ':article_detail_id',
-                        'media_id'          => ':media_id',
-                    ])->setParameters([
-                        'articleID'         => $detail->getArticle()->getId(),
-                        'img'               => $media->getName(),
-                        'main'              => $imageNumber,
-                        'description'       => $media->getDescription(),
-                        'position'          => $imageNumber,
-                        'width'             => 0,
-                        'height'            => 0,
-                        'relations'         => '',
-                        'extension'         => $media->getExtension(),
-                        'parent_id'         => null,
-                        'article_detail_id' => $detail->getId(),
-                        'media_id'          => $media->getId(),
-                    ])->execute();
+                $imagePosition++;
             }
-
+            /** @noinspection DisconnectedForeachInstructionInspection */
             $progressBar->advance();
         }
         $progressBar->finish();
+    }
+
+    /**
+     * @param Media $media
+     * @param Detail $detail
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    private function createImageRules(Media $media, Detail $detail)
+    {
+        /** @var Image $articleImage */
+        $articleImage = $this->models->getRepository(Image::class)->findOneBy(['media' => $media->getId()]);
+
+        $this->doWeirdShopwareArticleImageParentStuff($media, $detail, $articleImage->getPosition(), $articleImage->getId());
+
+        $this->models->getDBALQueryBuilder()->insert('s_article_img_mappings')
+            ->values([
+                'image_id' => ':image_id',
+            ])
+            ->setParameters([
+                'image_id' => $articleImage->getId()
+            ])->execute();
+
+
+        /** @var Image\Mapping $articleImageMapping */
+        $articleImageMapping = $this->models->getRepository(Image\Mapping::class)->findOneBy(['image' => $articleImage->getId()]);
+
+        /** @var Image\Rule[] $rules */
+        $rules = [];
+        /** @var Option[] $options */
+        $options = $detail->getConfiguratorOptions();
+        foreach ($options as $option) {
+            $rule = new Image\Rule();
+            $rule->setOption($option);
+            $rule->setMapping($articleImageMapping);
+
+            $this->models->persist($rule);
+            $rules[] = $rule;
+        }
+        $this->models->flush();
+
+        $articleImageMapping->setRules(new ArrayCollection($rules));
+        $this->models->flush();
+    }
+
+    private function doWeirdShopwareArticleImageParentStuff(Media $media, Detail $detail, int $position, int $parentId)
+    {
+        $this->models->getDBALQueryBuilder()->insert('s_articles_img')
+            ->values([
+                'articleID' => ':articleID',
+                'img' => ':img',
+                'main' => ':main',
+                'description' => ':description',
+                'position' => ':position',
+                'width' => ':width',
+                'height' => ':height',
+                'relations' => ':relations',
+                'extension' => ':extension',
+                'parent_id' => ':parent_id',
+                'article_detail_id' => ':article_detail_id',
+                'media_id' => ':media_id',
+            ])->setParameters([
+                'articleID' => null,
+                'img' => null,
+                'main' => '2',
+                'description' => $media->getDescription(),
+                'position' => $position,
+                'width' => 0,
+                'height' => 0,
+                'relations' => '',
+                'extension' => $media->getExtension(),
+                'parent_id' => $parentId,
+                'article_detail_id' => $detail->getId(),
+                'media_id' => null,
+            ])->execute();
+
+    }
+
+    /**
+     * @param OstMediaConnectorMedia $image
+     * @param int $articleId
+     * @param int|null $detailId
+     * @param bool $isMain
+     * @param int $position
+     * @return Media
+     * @throws \Shopware\Components\Api\Exception\ValidationException
+     */
+    private function importImage(OstMediaConnectorMedia $image, int $articleId, bool $isMain, int $position): Media
+    {
+        $params = [
+            'album' => -1,
+            'file' => $image->getFile(),
+            'description' => ' '
+        ];
+
+        $media = $this->mediaApi->create($params);
+
+        $this->models->getDBALQueryBuilder()->insert('s_articles_img')
+            ->values([
+                'articleID' => ':articleID',
+                'img' => ':img',
+                'main' => ':main',
+                'description' => ':description',
+                'position' => ':position',
+                'width' => ':width',
+                'height' => ':height',
+                'relations' => ':relations',
+                'extension' => ':extension',
+                'parent_id' => ':parent_id',
+                'article_detail_id' => ':article_detail_id',
+                'media_id' => ':media_id',
+            ])->setParameters([
+                'articleID' => $articleId,
+                'img' => $media->getName(),
+                'main' => $isMain ? '1' : '2',
+                'description' => $media->getDescription(),
+                'position' => $position,
+                'width' => 0,
+                'height' => 0,
+                'relations' => '',
+                'extension' => $media->getExtension(),
+                'parent_id' => null,
+                'article_detail_id' => null,
+                'media_id' => $media->getId(),
+            ])->execute();
+
+        return $media;
     }
 }
