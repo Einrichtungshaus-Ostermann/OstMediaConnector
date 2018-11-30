@@ -139,12 +139,12 @@ class AssignNoImageCommand extends ShopwareCommand
             $rule->setMapping($articleImageMapping);
 
             $this->models->persist($rule);
+            $this->models->flush($rule);
             $rules[] = $rule;
         }
-        $this->models->flush();
 
         $articleImageMapping->setRules(new ArrayCollection($rules));
-        $this->models->flush();
+        $this->models->flush($articleImageMapping);
     }
 
     private function doWeirdShopwareArticleImageParentStuff(Media $media, Detail $detail, int $position, int $parentId)
