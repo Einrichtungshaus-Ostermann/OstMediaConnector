@@ -125,26 +125,23 @@ class AssignNoImageCommand extends ShopwareCommand
                 'image_id' => $articleImage->getId()
             ])->execute();
 
-
         /** @var Image\Mapping $articleImageMapping */
         $articleImageMapping = $this->models->getRepository(Image\Mapping::class)->findOneBy(['image' => $articleImage->getId()]);
 
-        /** @var Image\Rule[] $rules */
-        $rules = [];
         /** @var Option[] $options */
         $options = $detail->getConfiguratorOptions();
         foreach ($options as $option) {
-            $rule = new Image\Rule();
-            $rule->setOption($option);
-            $rule->setMapping($articleImageMapping);
-
-            $this->models->persist($rule);
-            $this->models->flush($rule);
-            $rules[] = $rule;
+            $this->models->getDBALQueryBuilder()->insert('s_article_img_mapping_rules')
+                ->values([
+                    'mapping_id' => ':mapping_id',
+                    'option_id' => ':option_id',
+                ])
+                ->setParameters([
+                    'mapping_id' => $articleImageMapping->getId(),
+                    'option_id' => $option->getId(),
+                ])
+                ->execute();
         }
-
-        $articleImageMapping->setRules(new ArrayCollection($rules));
-        $this->models->flush($articleImageMapping);
     }
 
     private function doWeirdShopwareArticleImageParentStuff(Media $media, Detail $detail, int $position, int $parentId)
