@@ -20,7 +20,7 @@ namespace OstMediaConnector\Controller\Backend;
 use OstMediaConnector\Bundles\OstMediaConnectorBundle\Components\MediaProvider\MediaProvider;
 use Shopware_Controllers_Backend_ExtJs;
 
-class OstMediaConnector extends Shopware_Controllers_Backend_ExtJs
+class MediaConnector extends Shopware_Controllers_Backend_ExtJs
 {
     public function mediaProviderListAction()
     {

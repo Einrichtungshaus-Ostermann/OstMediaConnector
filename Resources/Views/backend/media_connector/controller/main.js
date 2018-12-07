@@ -1,9 +1,9 @@
-Ext.define('Shopware.apps.OstMediaConnector.controller.Main', {
+Ext.define('Shopware.apps.MediaConnector.controller.Main', {
     extend: 'Enlight.app.Controller',
 
     init: function () {
         var me = this;
-        me.mainWindow = me.getView('OstMediaConnectorConfig.list.Window').create({}).show();
+        me.mainWindow = me.getView('MediaConnectorConfig.list.Window').create({}).show();
 
         me.control({
             'before-send-save-request': function (a, b, c, d) {

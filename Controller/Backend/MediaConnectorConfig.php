@@ -20,11 +20,9 @@ namespace OstMediaConnector\Controller\Backend;
 use OstMediaConnector\Models\MediaProvider;
 use Shopware_Controllers_Backend_Application;
 
-class OstMediaConnectorConfig extends Shopware_Controllers_Backend_Application
+class MediaConnectorConfig extends Shopware_Controllers_Backend_Application
 {
     protected $model = MediaProvider::class;
-
-
 
     protected $alias = 'mediaprovider';
 }

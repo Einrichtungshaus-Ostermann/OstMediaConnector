@@ -1,11 +1,11 @@
-Ext.define('Shopware.apps.OstMediaConnector.view.OstMediaConnectorConfig.detail.Container', {
+Ext.define('Shopware.apps.MediaConnector.view.MediaConnectorConfig.detail.Container', {
     extend: 'Shopware.model.Container',
     padding: 20,
 
     configure: function () {
         var me = this;
-        var mediaProviderStore = Ext.create('Shopware.apps.OstMediaConnector.store.MediaProvider');
-
+        var mediaProviderStore = Ext.create('Shopware.apps.MediaConnector.store.MediaConnector');
+        console.log(me);
         function createFormField(name, type) {
             var field = {
                 name: name,
@@ -47,7 +47,6 @@ Ext.define('Shopware.apps.OstMediaConnector.view.OstMediaConnectorConfig.detail.
         }
 
         me.configFieldSets = {};
-        me.configValues = {};
         me.selected = null;
 
         mediaProviderStore.on('load', function (result) {
@@ -55,7 +54,6 @@ Ext.define('Shopware.apps.OstMediaConnector.view.OstMediaConnectorConfig.detail.
                 var name = element.get('name');
                 var fields = [];
 
-                me.configValues[name] = {};
 
                 element.get('configParameter').forEach(function (configParameter) {
                     fields.push(createFormField(configParameter.name, configParameter.type));
@@ -75,22 +73,23 @@ Ext.define('Shopware.apps.OstMediaConnector.view.OstMediaConnectorConfig.detail.
 
 
                 fieldSet.items.items.forEach(function (item) {
-                    item.on('change', function (changedItem, newValue, oldValue) {
-                        console.log(me.configValues);
-                        me.configValues[name][item.name] = newValue;
-                    });
+                    if (name === me.initialConfig.record.data["providerName"] && me.initialConfig.record.data["config"]) {
+                        var config = JSON.parse(me.initialConfig.record.data["config"]);
+
+                        item.setValue(config[item.name]);
+                    }
                 });
 
                 me.configFieldSets[name] = fieldSet;
 
 
                 Object.values(me.configFieldSets).forEach(function (fieldSet) {
-                    fieldSet.hide();
+                    if (name !== me.initialConfig.record.data["providerName"]) {
+                        fieldSet.hide();
+                    }
+
                     me.add(fieldSet);
                 });
-
-                // console.log(result);
-                // me.configValues[configParameter.name] = 'bla'; //TODO: Load current Parameter
             });
         });
 

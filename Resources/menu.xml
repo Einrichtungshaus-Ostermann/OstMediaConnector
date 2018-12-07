@@ -6,7 +6,7 @@
             <name>MediaAerver</name>
             <label lang="de">Mediaserver</label>
             <label lang="en">Mediaserver</label>
-            <controller>OstMediaConnector</controller>
+            <controller>MediaConnector</controller>
             <action>index</action>
             <class>sprite-inbox-image</class>
             <parent identifiedBy="controller">ConfigurationMenu</parent>
