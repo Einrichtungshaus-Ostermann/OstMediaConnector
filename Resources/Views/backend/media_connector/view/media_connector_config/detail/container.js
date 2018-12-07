@@ -5,7 +5,6 @@ Ext.define('Shopware.apps.MediaConnector.view.MediaConnectorConfig.detail.Contai
     configure: function () {
         var me = this;
         var mediaProviderStore = Ext.create('Shopware.apps.MediaConnector.store.MediaConnector');
-        console.log(me);
         function createFormField(name, type) {
             var field = {
                 name: name,
