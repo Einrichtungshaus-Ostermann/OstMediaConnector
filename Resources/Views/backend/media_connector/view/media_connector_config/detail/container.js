@@ -45,13 +45,13 @@ Ext.define('Shopware.apps.MediaConnector.view.MediaConnectorConfig.detail.Contai
             return formField;
         }
 
-        // Hide Config field
-        me.items.items[0].items.items[1].items.items[1].hide();
-
         me.configFieldSets = {};
         me.selected = null;
 
         mediaProviderStore.on('load', function (result) {
+            // Hide Config field
+            me.items.items[0].items.items[1].items.items[1].hide();
+
             result.each(function (element) {
                 var name = element.get('name');
                 var fields = [];
@@ -128,5 +128,4 @@ Ext.define('Shopware.apps.MediaConnector.view.MediaConnectorConfig.detail.Contai
             ]
         };
     }
-
 });
