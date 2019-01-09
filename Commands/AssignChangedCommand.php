@@ -57,7 +57,7 @@ class AssignChangedCommand extends ShopwareCommand
      */
     protected function configure()
     {
-        $this->setName('mediaserver:assign:changed');
+        $this->setName('ost-media-connector:assign:changed-images');
     }
 
 

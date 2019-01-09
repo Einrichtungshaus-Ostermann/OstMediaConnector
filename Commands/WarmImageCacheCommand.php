@@ -20,7 +20,7 @@ class WarmImageCacheCommand extends ShopwareCommand
      */
     protected function configure()
     {
-        $this->setName('mediaserver:cache:warm')->setDescription('Warm ImageCache');
+        $this->setName('ost-media-connector:cache:warm')->setDescription('Warm ImageCache');
     }
 
 

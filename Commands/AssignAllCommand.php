@@ -18,7 +18,7 @@ class AssignAllCommand extends ShopwareCommand
      */
     protected function configure()
     {
-        $this->setName('mediaserver:assign:all');
+        $this->setName('ost-media-connector:assign:all-images');
     }
 
 

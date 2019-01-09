@@ -9,13 +9,14 @@
     </imports>
 
     <services>
-        <!-- Custom Services -->
+
+        <!-- configuration -->
         <service id="ost_media_connector.config" class="Shopware\Components\Plugin\CachedConfigReader">
             <factory service="shopware.plugin.cached_config_reader" method="getByPluginName"/>
             <argument type="string">OstMediaConnector</argument>
         </service>
 
-        <!-- Event Subscribers -->
+        <!-- event subscribers -->
         <service id="ost_media_connector.subscribers.frontend_subscriber"
                  class="OstMediaConnector\Subscribers\FrontendSubscriber">
             <tag name="shopware.event_subscriber"/>
@@ -34,17 +35,19 @@
             <tag name="shopware.event_subscriber"/>
             <argument type="service" id="template"/>
         </service>
-        <!-- Decorations -->
 
+        <!-- console commands -->
         <service class="OstMediaConnector\Commands\AssignAllCommand">
             <tag name="console.command"/>
         </service>
+
         <service class="OstMediaConnector\Commands\AssignChangedCommand">
             <tag name="console.command"/>
             <argument type="service" id="models"/>
             <argument type="service" id="shopware.plugin.config_reader"/>
             <argument type="service" id="shopware.plugin.config_writer"/>
         </service>
+
         <service class="OstMediaConnector\Commands\AssignNoImageCommand">
             <tag name="console.command"/>
         </service>

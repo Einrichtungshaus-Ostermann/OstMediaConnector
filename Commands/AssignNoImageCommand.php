@@ -30,7 +30,7 @@ class AssignNoImageCommand extends ShopwareCommand
      */
     protected function configure()
     {
-        $this->setName('mediaserver:assign:noimage');
+        $this->setName('ost-media-connector:assign:no-images');
     }
 
 
