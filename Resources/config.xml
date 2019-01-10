@@ -59,7 +59,7 @@
         </element>
 
         <element type="button">
-            <name>liveButton</name>
+            <name>consoleButton</name>
             <label><![CDATA[<b>Konsole Einstellungen</b>]]></label>
         </element>
 

@@ -14,6 +14,9 @@
  * 1.0.2
  * - fixed plugin name and description
  *
+ * 1.0.3
+ * - fixed configuration
+ *
  * @package   OstMediaConnector
  *
  * @author    Tim Windelschmidt <tim.windelschmidt@ostermann.de>
