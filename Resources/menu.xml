@@ -4,8 +4,7 @@
     <entries>
         <entry>
             <name>MediaAerver</name>
-            <label lang="de">Mediaserver</label>
-            <label lang="en">Mediaserver</label>
+            <label>PIM Media Synchronisation</label>
             <controller>MediaConnector</controller>
             <action>index</action>
             <class>sprite-inbox-image</class>

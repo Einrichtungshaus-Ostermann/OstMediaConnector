@@ -1,49 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../../engine/Shopware/Components/Plugin/schema/config.xsd">
-
     <elements>
+
+        <element type="button">
+            <name>defaultButton</name>
+            <label><![CDATA[<b>Allgemeine Einstellungen</b>]]></label>
+        </element>
+
         <element type="boolean" required="true">
             <name>liveHook</name>
-            <label>Replace the Images live</label>
-            <description>Otherwise you need to write the Images via the Command</description>
+            <label>Artikelbilder live ersetzen</label>
+            <description>Sollen die Artikelbilder live ersetzt werden? Alternativ müssen alle Bilder via console command synchronisiert werden.</description>
         </element>
 
         <element type="select">
             <name>cacheProvider</name>
-            <label>Cache Provider</label>
+            <label>Cache</label>
             <store>
+                <option>
+                    <value>NoopCacheProvider</value>
+                    <label>Deaktiviert</label>
+                </option>
                 <option>
                     <value>RedisCacheProvider</value>
                     <label>Redis</label>
                 </option>
-                <option>
-                    <value>NoopCacheProvider</value>
-                    <label>Nothing</label>
-                </option>
             </store>
+        </element>
+
+        <element type="button">
+            <name>liveButton</name>
+            <label><![CDATA[<b>Live Einstellungen</b>]]></label>
         </element>
 
         <element type="interval" required="true">
             <name>mediaCacheTTL</name>
-            <label>Time to Live for Thumbnail Sizes</label>
+            <label>Thumbnail Größen</label>
+            <description>Wie oft sollen Thumbnail Größen aktualisiert werden?</description>
         </element>
+
         <element type="interval" required="true">
             <name>resourceCacheTTL</name>
-            <label>Time to Live for Thumbnails</label>
+            <label>Thumbnails</label>
+            <description>Wie oft sollen Thumbnails aktualisiert werden?</description>
         </element>
+
         <element type="interval" required="true">
             <name>mediaProviderListCacheTTL</name>
-            <label>Time to Live for Media Provider Order</label>
+            <label>Adapter Reihenfolge</label>
+            <description>Wie oft soll die Reihenfolge der Adapter aktualisiert werden?</description>
         </element>
+
         <element type="interval" required="true">
             <name>mediaAssociationTTL</name>
-            <label>Time to Live for Ordernumber Image Associations</label>
+            <label>Verknüpfungen</label>
+            <description>Wie oft sollen Verknüpfungen aktualisiert werden?</description>
         </element>
+
+        <element type="button">
+            <name>liveButton</name>
+            <label><![CDATA[<b>Konsole Einstellungen</b>]]></label>
+        </element>
+
         <element type="datetime" required="false" scope="shop">
             <name>lastRun</name>
-            <label>Last run of the Writer</label>
+            <label>Letzter Lauf</label>
+            <description>Das Datum der letzten Synchronisation.</description>
         </element>
-    </elements>
 
+    </elements>
 </config>

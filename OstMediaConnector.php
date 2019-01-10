@@ -11,6 +11,9 @@
  * 1.0.1
  * - changed console commands
  *
+ * 1.0.2
+ * - fixed plugin name and description
+ *
  * @package   OstMediaConnector
  *
  * @author    Tim Windelschmidt <tim.windelschmidt@ostermann.de>
