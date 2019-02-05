@@ -183,7 +183,7 @@ class PIMProvider implements MediaProvider
      *
      * @return bool
      */
-    private function fileExist($path): bool
+    protected function fileExist($path): bool
     {
         $headers = @get_headers($path)[0];
 

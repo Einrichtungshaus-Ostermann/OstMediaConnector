@@ -17,6 +17,9 @@
  * 1.0.3
  * - fixed configuration
  *
+ * 1.0.4
+ * -  add local pim media source
+ *
  * @package   OstMediaConnector
  *
  * @author    Tim Windelschmidt <tim.windelschmidt@ostermann.de>

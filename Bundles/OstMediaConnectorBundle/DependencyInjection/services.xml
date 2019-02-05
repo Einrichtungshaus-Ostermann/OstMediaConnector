@@ -28,6 +28,12 @@
             <tag name="ost_media_connector.components.media_provider"/>
         </service>
 
+        <service id="ost_media_connector.components_media_provider.pimlocal_provider"
+                 class="OstMediaConnector\Bundles\OstMediaConnectorBundle\Components\MediaProvider\PIMLocalProvider">
+            <tag name="ost_media_connector.components.media_provider"/>
+        </service>
+
+
         <service id="ost_media_connector.components_media_provider.shopware_provider"
                  class="OstMediaConnector\Bundles\OstMediaConnectorBundle\Components\MediaProvider\ShopwareProvider">
             <tag name="ost_media_connector.components.media_provider"/>

@@ -62,6 +62,11 @@ class MediaProviderListProvider implements MediaProviderList
             }
 
             $currentMediaProvider = $sortedProvider[$mediaProviderModel->getProviderName()];
+
+            if ($currentMediaProvider === null) {
+                continue;
+            }
+
             $currentOstMediaConnectorConfig = json_decode($mediaProviderModel->getConfig(), true) ?? [];
 
             $dataArray[$mediaProviderModel->getPriority()] = [
