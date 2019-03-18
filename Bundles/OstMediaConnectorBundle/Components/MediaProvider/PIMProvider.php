@@ -185,9 +185,9 @@ class PIMProvider implements MediaProvider
      */
     protected function fileExist($path): bool
     {
-        $headers = @get_headers($path)[0];
+        $headers = @get_headers($path);
 
-        return strpos($headers, '404') === false;
+        return $headers === null ? false : strpos($headers[0], '404') === false;
     }
 
 
