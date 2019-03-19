@@ -20,6 +20,9 @@
  * 1.0.4
  * -  add local pim media source
  *
+ * 1.0.5
+ * - fixed fetching faulty headers
+ *
  * @package   OstMediaConnector
  *
  * @author    Tim Windelschmidt <tim.windelschmidt@ostermann.de>
