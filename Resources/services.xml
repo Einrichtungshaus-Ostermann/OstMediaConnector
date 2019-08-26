@@ -4,10 +4,6 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services
         http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <imports>
-        <import resource="../Bundles/OstMediaConnectorBundle/DependencyInjection/services.xml"/>
-    </imports>
-
     <services>
 
         <!-- configuration -->
@@ -16,43 +12,9 @@
             <argument type="string">OstMediaConnector</argument>
         </service>
 
-        <!-- event subscribers -->
-        <service id="ost_media_connector.subscribers.frontend_subscriber"
-                 class="OstMediaConnector\Subscribers\FrontendSubscriber">
-            <tag name="shopware.event_subscriber"/>
-            <argument type="service" id="legacy_struct_converter"/>
-            <argument type="service" id="ost_media_connector.services.image_service"/>
-            <argument type="service" id="ost_media_connector.config"/>
-        </service>
-
-        <service id="ost_media_connector.subscribers.controller_path"
-                 class="OstMediaConnector\Subscribers\ControllerPath">
-            <tag name="shopware.event_subscriber"/>
-        </service>
-
-        <service id="ost_media_connector.subscribers.template_subscriber"
-                 class="OstMediaConnector\Subscribers\TemplateSubscriber">
-            <tag name="shopware.event_subscriber"/>
-            <argument type="service" id="template"/>
-        </service>
-
-        <!-- console commands -->
-        <service class="OstMediaConnector\Commands\AssignAllCommand">
-            <tag name="console.command"/>
-        </service>
-
-        <service class="OstMediaConnector\Commands\AssignChangedCommand">
-            <tag name="console.command"/>
+        <service class="OstMediaConnector\Commands\GetImagesFromPIM">
             <argument type="service" id="models"/>
-            <argument type="service" id="shopware.plugin.config_reader"/>
-            <argument type="service" id="shopware.plugin.config_writer"/>
-        </service>
-
-        <service class="OstMediaConnector\Commands\AssignNoImageCommand">
-            <tag name="console.command"/>
-        </service>
-
-        <service class="OstMediaConnector\Commands\WarmImageCacheCommand">
+            <argument type="service" id="ost_media_connector.config"/>
             <tag name="console.command"/>
         </service>
 

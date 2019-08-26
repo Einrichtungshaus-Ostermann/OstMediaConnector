@@ -13,7 +13,6 @@
 namespace OstMediaConnector\Setup;
 
 use Doctrine\ORM\Tools\SchemaTool;
-use OstMediaConnector\Models\MediaProvider;
 use Shopware\Bundle\AttributeBundle\Service\CrudService;
 use Shopware\Components\Model\ModelManager;
 use Shopware\Components\Plugin;
@@ -85,7 +84,6 @@ class Install
     {
         $tool = new SchemaTool($this->modelManager);
         $classes = [
-            $this->modelManager->getClassMetadata(MediaProvider::class)
         ];
 
         $tool->createSchema($classes);

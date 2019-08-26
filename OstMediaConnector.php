@@ -23,6 +23,9 @@
  * 1.0.5
  * - fixed fetching faulty headers
  *
+ * 1.1.0
+ * - Remove everything except sync command
+ *
  * @package   OstMediaConnector
  *
  * @author    Tim Windelschmidt <tim.windelschmidt@ostermann.de>
@@ -32,8 +35,6 @@
 
 namespace OstMediaConnector;
 
-use OstMediaConnector\Bundles\OstMediaConnectorBundle\Components\CompilerPass\CacheProviderCollectorCompilerPass;
-use OstMediaConnector\Bundles\OstMediaConnectorBundle\Components\CompilerPass\MediaProviderCollectorCompilerPass;
 use Shopware\Components\Plugin;
 use Shopware\Components\Plugin\Context;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -53,11 +54,7 @@ class OstMediaConnector extends Plugin
 
         // call parent builder
         parent::build($container);
-
-        $container->addCompilerPass(new MediaProviderCollectorCompilerPass());
-        $container->addCompilerPass(new CacheProviderCollectorCompilerPass());
     }
-
 
 
     /**
@@ -70,7 +67,6 @@ class OstMediaConnector extends Plugin
         // clear complete cache after we activated the plugin
         $context->scheduleClearCache($context::CACHE_LIST_ALL);
     }
-
 
 
     /**
@@ -103,7 +99,6 @@ class OstMediaConnector extends Plugin
     }
 
 
-
     /**
      * Update the plugin.
      *
@@ -121,7 +116,6 @@ class OstMediaConnector extends Plugin
         // call default updater
         parent::update($context);
     }
-
 
 
     /**

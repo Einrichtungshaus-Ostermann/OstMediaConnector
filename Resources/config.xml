@@ -2,72 +2,24 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../../engine/Shopware/Components/Plugin/schema/config.xsd">
     <elements>
-
         <element type="button">
             <name>defaultButton</name>
             <label><![CDATA[<b>Allgemeine Einstellungen</b>]]></label>
         </element>
-
-        <element type="boolean" required="true">
-            <name>liveHook</name>
-            <label>Artikelbilder live ersetzen</label>
-            <description>Sollen die Artikelbilder live ersetzt werden? Alternativ müssen alle Bilder via console command synchronisiert werden.</description>
+        <element>
+            <name>imageFolders</name>
+            <label>Bilder Ordner</label>
+            <value>bild1,bild2,bild3,bild4,bild5,bild6,bild7</value>
         </element>
-
-        <element type="select">
-            <name>cacheProvider</name>
-            <label>Cache</label>
-            <store>
-                <option>
-                    <value>NoopCacheProvider</value>
-                    <label>Deaktiviert</label>
-                </option>
-                <option>
-                    <value>RedisCacheProvider</value>
-                    <label>Redis</label>
-                </option>
-            </store>
+        <element>
+            <name>variantFolderName</name>
+            <label>Varianten Bilder Ordner</label>
+            <value>vbilder</value>
         </element>
-
-        <element type="button">
-            <name>liveButton</name>
-            <label><![CDATA[<b>Live Einstellungen</b>]]></label>
+        <element>
+            <name>baseFolder</name>
+            <label>Base Folder</label>
+            <value>/mnt/pim-media/ostermann</value>
         </element>
-
-        <element type="interval" required="true">
-            <name>mediaCacheTTL</name>
-            <label>Thumbnail Größen</label>
-            <description>Wie oft sollen Thumbnail Größen aktualisiert werden?</description>
-        </element>
-
-        <element type="interval" required="true">
-            <name>resourceCacheTTL</name>
-            <label>Thumbnails</label>
-            <description>Wie oft sollen Thumbnails aktualisiert werden?</description>
-        </element>
-
-        <element type="interval" required="true">
-            <name>mediaProviderListCacheTTL</name>
-            <label>Adapter Reihenfolge</label>
-            <description>Wie oft soll die Reihenfolge der Adapter aktualisiert werden?</description>
-        </element>
-
-        <element type="interval" required="true">
-            <name>mediaAssociationTTL</name>
-            <label>Verknüpfungen</label>
-            <description>Wie oft sollen Verknüpfungen aktualisiert werden?</description>
-        </element>
-
-        <element type="button">
-            <name>consoleButton</name>
-            <label><![CDATA[<b>Konsole Einstellungen</b>]]></label>
-        </element>
-
-        <element type="datetime" required="false" scope="shop">
-            <name>lastRun</name>
-            <label>Letzter Lauf</label>
-            <description>Das Datum der letzten Synchronisation.</description>
-        </element>
-
     </elements>
 </config>
