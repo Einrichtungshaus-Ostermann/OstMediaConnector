@@ -26,6 +26,9 @@
  * 1.1.0
  * - Remove everything except sync command
  *
+ * 1.1.1
+ * - Fix wrong service.xml
+ *
  * @package   OstMediaConnector
  *
  * @author    Tim Windelschmidt <tim.windelschmidt@ostermann.de>

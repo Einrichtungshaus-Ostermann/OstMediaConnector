@@ -12,7 +12,7 @@
             <argument type="string">OstMediaConnector</argument>
         </service>
 
-        <service class="OstMediaConnector\Commands\GetImagesFromPIM">
+        <service class="OstMediaConnector\Commands\SyncImages">
             <argument type="service" id="models"/>
             <argument type="service" id="ost_media_connector.config"/>
             <tag name="console.command"/>
