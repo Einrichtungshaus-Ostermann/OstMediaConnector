@@ -82,10 +82,5 @@ class Install
      */
     public function install()
     {
-        $tool = new SchemaTool($this->modelManager);
-        $classes = [
-        ];
-
-        $tool->createSchema($classes);
     }
 }

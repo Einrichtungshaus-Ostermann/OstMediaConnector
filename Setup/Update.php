@@ -12,6 +12,7 @@
 
 namespace OstMediaConnector\Setup;
 
+use Exception;
 use Shopware\Components\Plugin;
 use Shopware\Components\Plugin\Context\InstallContext;
 
@@ -24,16 +25,12 @@ class Update
      */
     protected $plugin;
 
-
-
     /**
      * ...
      *
      * @var InstallContext
      */
     protected $context;
-
-
 
     /**
      * ...
@@ -48,8 +45,6 @@ class Update
         $this->context = $context;
     }
 
-
-
     /**
      * ...
      */
@@ -59,8 +54,6 @@ class Update
         $this->update('0.0.0');
     }
 
-
-
     /**
      * ...
      *
@@ -68,5 +61,32 @@ class Update
      */
     public function update($version)
     {
+        // switch old version
+        switch ($version) {
+            case '0.0.0':
+            case '1.0.0':
+            case '1.0.1':
+            case '1.0.2':
+            case '1.0.3':
+            case '1.0.4':
+            case '1.0.5':
+            case '1.1.0':
+            case '1.1.1':
+                $this->removeDatabaseTable();
+        }
+    }
+
+    /**
+     * ...
+     *
+     * @throws Exception
+     */
+    private function removeDatabaseTable()
+    {
+        // ...
+        $query = '
+            DROP TABLE IF EXISTS s_plugins_mediaconnector_mediaprovider;
+        ';
+        Shopware()->Db()->query($query);
     }
 }

@@ -24,10 +24,13 @@
  * - fixed fetching faulty headers
  *
  * 1.1.0
- * - Remove everything except sync command
+ * - removed everything except sync command
  *
  * 1.1.1
- * - Fix wrong service.xml
+ * - fixed wrong service.xml
+ *
+ * 1.1.2
+ * - removed leftover database table
  *
  * @package   OstMediaConnector
  *

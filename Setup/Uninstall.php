@@ -12,7 +12,7 @@
 
 namespace OstMediaConnector\Setup;
 
-use Doctrine\ORM\Tools\SchemaTool;
+use Exception;
 use Shopware\Bundle\AttributeBundle\Service\CrudService;
 use Shopware\Components\Model\ModelManager;
 use Shopware\Components\Plugin;
@@ -27,16 +27,12 @@ class Uninstall
      */
     protected $plugin;
 
-
-
     /**
      * ...
      *
      * @var UninstallContext
      */
     protected $context;
-
-
 
     /**
      * ...
@@ -45,16 +41,12 @@ class Uninstall
      */
     protected $modelManager;
 
-
-
     /**
      * ...
      *
      * @var CrudService
      */
     protected $crudService;
-
-
 
     /**
      * ...
@@ -73,8 +65,6 @@ class Uninstall
         $this->crudService = $crudService;
     }
 
-
-
     /**
      * ...
      *
@@ -82,10 +72,21 @@ class Uninstall
      */
     public function uninstall()
     {
-        $tool = new SchemaTool($this->modelManager);
-        $classes = [
-        ];
+        // ...
+        $this->removeDatabaseTable();
+    }
 
-        $tool->dropSchema($classes);
+    /**
+     * ...
+     *
+     * @throws Exception
+     */
+    private function removeDatabaseTable()
+    {
+        // ...
+        $query = '
+            DROP TABLE IF EXISTS s_plugins_mediaconnector_mediaprovider;
+        ';
+        Shopware()->Db()->query($query);
     }
 }
