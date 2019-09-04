@@ -32,6 +32,9 @@
  * 1.1.2
  * - removed leftover database table
  *
+ * 1.1.3
+ * - added oms support
+ *
  * @package   OstMediaConnector
  *
  * @author    Tim Windelschmidt <tim.windelschmidt@ostermann.de>
