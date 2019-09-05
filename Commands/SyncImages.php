@@ -243,7 +243,7 @@ class SyncImages extends ShopwareCommand
             ->from('s_articles', 'article')
             ->innerJoin('article', 's_articles_attributes', 'attributes', 'article.id = attributes.articleID')
             ->where('active = 1')
-            ->andWhere('attributes.attr2 != ""');
+            ->andWhere('attributes.attr1 != ""');
         $articlesResult = $qb->execute()->fetchAll(\PDO::FETCH_ASSOC);
         unset($qb);
 
@@ -324,7 +324,7 @@ class SyncImages extends ShopwareCommand
             }
         });
 
-            // Article Association
+        // Article Association
         array_walk($articlesImageResult, function ($articleImage) use (&$combinedImages, $articleDetails, $articles) {
             $articleID = $articleImage['articleID'];
             if ($articleID === null) {
@@ -477,9 +477,10 @@ class SyncImages extends ShopwareCommand
 
             foreach ($companyImages as $number => &$images) {
                 $keys = array_keys($images);
-                for ($i = 0, $iMax = count($images); $i < $iMax; ++$i) {
-                    if (!isset($keys[$i]) || $i !== $keys[$i]) {
-                        array_splice($images, 0, $i);
+                foreach ($keys as $shouldPos => $isPos) {
+                    if ($shouldPos !== $isPos) {
+                        array_splice($images, $shouldPos);
+                        break;
                     }
                 }
             }
